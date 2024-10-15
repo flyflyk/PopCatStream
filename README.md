@@ -38,6 +38,8 @@ pip install -r requirements.txt
 
 執行
 ```bash
-flask run
+python app.py
 ```
 
+### 5. 前往網頁
+在瀏覽器打上網址http://127.0.0.1:5000
