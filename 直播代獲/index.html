@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html css teaching</title>
+    <!-- connect CSS file -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <br />
+
+    <div style="text-align: right;">
+        <button class="subscribe-button">log in</button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="thumb-button">sign in</button>
+    </div>
+    
+    <button>Share</button>
+    <hr/>
+    <div class="info-box">
+    	<p>
+        	160 views  Aug 22, 2019 <br />
+        	You can do it! <br />
+        	html css! <br />
+                <img src="RT.jpg" alt="RT" width="560" height="315"><br />
+        	<a href="https://www.youtube.com/watch?v=Ob_LKCLxg2o">Link</a>
+    	</p>
+    </div>
+    <h3>add caculator</h3>
+    <input type="number" id="num1" placeholder="input first number">
+    <input type="number" id="num2" placeholder="input second number">
+    <br /><br />
+    <button onclick="addNumbers()">add caculate</button>
+
+    <div id="result"></div>
+
+    <script>
+        function addNumbers() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const sum = num1 + num2;
+            document.getElementById('result').innerHTML = `result: ${sum}`;
+        }
+    </script>
+</body>
+</html>
