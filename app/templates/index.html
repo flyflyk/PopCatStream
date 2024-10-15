@@ -3,46 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>html css teaching</title>
-    <!-- connect CSS file -->
-    <link rel="stylesheet" href="styles.css">
+    <title>PopCatStream</title>
+    <link rel="stylesheet" href="/static/css/main.css"> <!-- 主樣式 -->
+    <link rel="stylesheet" href="/static/css/modal.css"> <!-- 模態框樣式 -->
 </head>
-<body>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
 
-    <br />
+    <!-- 標頭 -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+        <div>
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;"> <!-- 替換為你的 logo 圖片 -->
+            </a>
+        </div>
+        <div>
+            <button class="login-button" onclick="openLoginModal()">Log in</button>
+            <button class="signup-button" onclick="openSignupModal()">Sign up</button>
+        </div>
+    </header>
 
-    <div style="text-align: right;">
-        <button class="subscribe-button">log in</button>
-        &nbsp;&nbsp;&nbsp;
-        <button class="thumb-button">sign in</button>
-    </div>
-    
-    <button>Share</button>
-    <hr/>
-    <div class="info-box">
-    	<p>
-        	160 views  Aug 22, 2019 <br />
-        	You can do it! <br />
-        	html css! <br />
-                <img src="../static/images/popcat.jpg" alt="RT" width="560" height="315"><br />
-        	<a href="https://www.youtube.com/watch?v=Ob_LKCLxg2o">Link</a>
-    	</p>
-    </div>
-    <h3>add caculator</h3>
-    <input type="number" id="num1" placeholder="input first number">
-    <input type="number" id="num2" placeholder="input second number">
-    <br /><br />
-    <button onclick="addNumbers()">add caculate</button>
+    <!-- 主要內容 -->
+    <main style="text-align: center; padding: 50px;">
+        <h1>這是直播平台</h1>
+        <p>這裡可以直播！</p>
+    </main>
 
-    <div id="result"></div>
+    <!-- 登录模态框 -->
+    {% include 'login_modal.html' %}
 
-    <script>
-        function addNumbers() {
-            const num1 = parseFloat(document.getElementById('num1').value);
-            const num2 = parseFloat(document.getElementById('num2').value);
-            const sum = num1 + num2;
-            document.getElementById('result').innerHTML = `result: ${sum}`;
-        }
-    </script>
+    <!-- 注册模态框 -->
+    {% include 'signup_modal.html' %}
+
+    <!-- 載入 JavaScript -->
+    <script src="/static/js/modal.js"></script> 
+
 </body>
 </html>
