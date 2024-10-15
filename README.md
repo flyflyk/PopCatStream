@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 ### 4. 啟動網頁
 
-執行
+在專案目錄執行
 ```bash
 python app.py
 ```
