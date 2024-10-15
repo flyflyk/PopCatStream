@@ -1,0 +1,56 @@
+.subscribe-button {
+    color: white;
+    background-color: black;
+    width: 60px;
+    height: 36px;
+    border-radius: 18px;
+    border-style: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    line-height: 36px;
+    box-sizing: border-box;
+}
+
+.subscribe-button:hover {
+    background-color: rgb(31, 31, 31);
+}
+
+.subscribe-button:active {
+    background-color: rgb(61, 61, 61);
+}
+
+.thumb-button {
+    width: 60px;
+    height: 36px;
+    border-radius: 18px;
+    cursor: pointer;
+    border-style: solid;
+    border-color: rgb(195, 195, 195);
+    border-width: 1px;
+    background-color: white;
+    text-align: center;
+    line-height: 36px;
+    box-sizing: border-box;
+}
+
+.thumb-button:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+.thumb-button:active {
+    background-color: rgb(173, 173, 173);
+}
+
+.info-box {
+    background-color: rgb(240, 240, 240);       
+    padding: 15px;             
+    margin-top: 15px;          
+}
+body {
+    background-image: url('back1.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
