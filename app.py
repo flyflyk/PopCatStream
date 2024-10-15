@@ -29,7 +29,7 @@ def signup():
 @app.route('/login', methods=['POST'])
 def login():
     # 獲取表單數據
-    username = request.form['username']
+    usernamee = request.form['username']
     password = request.form['password']
 
     # 用戶驗證
