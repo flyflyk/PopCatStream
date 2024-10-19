@@ -26,8 +26,13 @@
 
     <!-- 主要內容 -->
     <main style="text-align: center; padding: 50px;">
-        <h1>這是直播平台</h1>
-        <p>這裡可以直播！</p>
+        <h1>正在直播 <span style="display: inline-block; width: 20px; height: 20px; background-color: #fc0505; border-radius: 50%; vertical-align: middle;"></span>:</h1>
+        <div style="margin-top: 20px;">
+            <video id="liveVideo" width="640" height="360" controls>
+                <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
+                您的瀏覽器不支持視頻標籤。
+            </video>
+        </div>
     </main>
 
     {% include 'login_modal.html' %}
