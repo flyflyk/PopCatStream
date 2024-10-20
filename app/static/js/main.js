@@ -10,7 +10,6 @@ function logout() {
     sessionStorage.removeItem('loggedIn');
 }
 
-// 根據用戶是否已經登入來更新按鈕
 window.onload = function() {
     const authButtons = document.getElementById('auth-buttons');
 
