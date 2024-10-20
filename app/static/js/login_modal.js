@@ -29,7 +29,7 @@ loginButton.addEventListener('click', function(e) {
         if (data.success) {
             loginNameError.textContent = "";
             loginPasswordError.textContent = "";
-            sessionStorage.setItem('loggedIn', 'true');
+            login()
             alert('登入成功');
             document.getElementById('loginForm').submit();
         } else if (data.errorCode == 1) {

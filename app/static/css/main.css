@@ -53,3 +53,44 @@ h1 {
     width: 80%; /* 信息框寬度 */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 陰影效果 */
 }
+
+/* 下拉容器樣式 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* 圖像按鈕樣式 */
+.profile-icon {
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* 下拉內容樣式：向左下展開 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #444;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    top: 10; 
+}
+
+/* 下拉選項樣式：文字向左對齊 */
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left; /* 文字向左對齊 */
+}
+
+/* 下拉選項懸停效果 */
+.dropdown-content a:hover {
+    background-color: #333; /* 修改懸停背景色 */
+}
+
+
