@@ -22,12 +22,12 @@ function validPassword(password) {
     }
 }
 
-function checkSignupButtonState() {
+function updateSignupBtnState() {
     const usernameValid = usernameError.textContent === "";
     const passwordValid = passwordError.textContent === "";
     const confirmPasswordValid = confirmPasswordError.textContent === "";
 
-    signupButton.disabled = !(usernameValid && passwordValid && confirmPasswordValid);
+    signupButton.disabled = !((!usernameValid) && (!passwordValid) && (confirmPasswordValid));
 }
 
 // Global variables
@@ -77,7 +77,7 @@ usernameInput.addEventListener('blur', function() {
                 usernameError.textContent = "用戶名已存在";
             } else {
                 usernameError.textContent = "";
-                checkSignupButtonState(); 
+                updateSignupBtnState(); 
             }
         })
         .catch(error => {
@@ -107,7 +107,7 @@ confirmPasswordInput.addEventListener('blur', function() {
         confirmPasswordError.textContent = "與密碼不一致";
     } else {
         confirmPasswordError.textContent = "";
-        checkSignupButtonState(); 
+        updateSignupBtnState(); 
     }
 });
 
