@@ -93,4 +93,13 @@ h1 {
     background-color: #333; /* 修改懸停背景色 */
 }
 
-
+/*字形*/
+.site-title {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 28px;
+    color: #fce17d;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
