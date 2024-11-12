@@ -103,3 +103,29 @@ h1 {
     color: #fce17d;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+.menu {
+    position: fixed;
+    top: 100px; /* 向下移動兩格 */
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    cursor: pointer;
+}
+
+.menu div {
+    height: 5px;
+    background-color: black;
+    margin: 4px 0;
+}
+
+#menu-options {
+    position: fixed;
+    top: 140px; /* 跟隨移動 */
+    left: 10px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
