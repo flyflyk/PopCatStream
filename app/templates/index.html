@@ -28,24 +28,8 @@
         <div></div>
     </div>
     <div id="menu-options" style="display: none;">
-        <button onclick="startLive()">我要直播</button>
+        <div id="create-button"></div>
     </div>
-
-    <script>
-        function toggleMenu() {
-            var menuOptions = document.getElementById('menu-options');
-            if (menuOptions.style.display === 'none') {
-                menuOptions.style.display = 'block';
-            } else {
-                menuOptions.style.display = 'none';
-            }
-        }
-
-        function startLive() {
-            alert('開始直播！');
-            // 在這裡添加開始直播的功能
-        }
-    </script>  
 
     <!-- 主要內容 -->
     <main style="text-align: center; padding: 50px;">

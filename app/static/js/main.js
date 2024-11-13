@@ -15,8 +15,18 @@ function toggleDropdown() {
     dropdownList.style.display = dropdownList.style.display === 'none' ? 'block' : 'none';
 }
 
+function toggleMenu() {
+    var menuOptions = document.getElementById('menu-options');
+    if (menuOptions.style.display === 'none') {
+        menuOptions.style.display = 'block';
+    } else {
+        menuOptions.style.display = 'none';
+    }
+}
+
 window.onload = function() {
     const authButtons = document.getElementById('auth-buttons');
+    const createButton = document.getElementById('create-button');
 
     if (isLoggedIn()) {
         authButtons.innerHTML = `
@@ -28,6 +38,11 @@ window.onload = function() {
                 </div>
             </div>
         `;
+        createButton.innerHTML = `<button>建立直播</button>`;
+        createButton.onclick = function() {
+            window.location.href = '/createLive';
+        };
+
     } else {
         authButtons.innerHTML = `
             <button class="login-button" onclick="openLoginModal()">Log in</button>

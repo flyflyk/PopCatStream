@@ -124,8 +124,7 @@ h1 {
     position: fixed;
     top: 140px; /* 跟隨移動 */
     left: 10px;
-    background-color: white;
-    border: 1px solid black;
+    background-color: #222;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }

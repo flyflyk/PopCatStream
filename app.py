@@ -2,10 +2,12 @@ from flask import Flask, render_template
 from flask_cors import CORS
 import sqlite3
 from app.routes.auth_routes import auth_bp
+from app.routes.stream_routes import stream_bp
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 
 app.register_blueprint(auth_bp)
+app.register_blueprint(stream_bp)
 
 # 啟用跨來源資源共享 (CORS)
 CORS(app)

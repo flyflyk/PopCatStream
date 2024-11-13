@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopCatStream</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
+
+    <!-- 標頭 -->
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px;">
+        <div style="flex: 1;">
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
+            </a>
+        </div>
+        <h2 class="site-title">popcatstream</h2>
+        <div id="auth-buttons" style="flex: 1; text-align: right;">
+        </div>
+    </header>
+    
+    <div class="menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div id="menu-options" style="display: none;">
+        <button onclick="startLive()">我要直播</button>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menuOptions = document.getElementById('menu-options');
+            if (menuOptions.style.display === 'none') {
+                menuOptions.style.display = 'block';
+            } else {
+                menuOptions.style.display = 'none';
+            }
+        }
+
+        function startLive() {
+            alert('開始直播！');
+            // 在這裡添加開始直播的功能
+        }
+    </script>  
+
+    <!-- 主要內容 -->
+    <main style="text-align: center; padding: 50px;">
+        <div style="margin-top: 20px;">
+            <video id="liveVideo" width="640" height="360" controls>
+                <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
+                您的瀏覽器不支持視頻標籤。
+            </video>
+        </div>
+    </main>
+
+    <!-- 登入/註冊模態框 -->
+    {% include 'login_modal.html' %}
+    {% include 'signup_modal.html' %}
+
+    <!-- 載入 JavaScript -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/login_modal.js"></script>
+    <script src="/static/js/signup_modal.js"></script>
+
+</body>
+</html>
