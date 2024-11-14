@@ -48,14 +48,48 @@
     </script>  
 
     <!-- 主要內容 -->
-    <main style="text-align: center; padding: 50px;">
-        <div style="margin-top: 20px;">
-            <video id="liveVideo" width="640" height="360" controls>
-                <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
-                您的瀏覽器不支持視頻標籤。
-            </video>
+    <div style="display: flex;">
+        <div style="margin-left: 100px; flex: 1;"> <!-- 外部容器，向右空三格 -->
+            <main style="padding: 50px;">
+                <div style="margin-top: 20px; text-align: left;">
+                    <video id="liveVideo" width="700" height="400" controls>
+                        <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
+                        您的瀏覽器不支持視頻標籤。
+                    </video>
+                </div>
+            </main>
         </div>
-    </main>
+        <aside style="width: 300px; background-color: #444; padding: 20px; color: #FFD700;">
+            <h2>聊天室</h2>
+            <div id="chat-box" style="height: 400px; overflow-y: scroll; background-color: #FFFFE0; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                <!-- 這裡會顯示聊天訊息 -->
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <input type="text" id="chat-input" placeholder="輸入訊息..." style="flex: 1; padding: 10px; border-radius: 5px; border: none; box-sizing: border-box; margin-bottom: 10px;">
+                <button onclick="sendMessage()" style="width: 100px; height: 40px; background-color: #ADD8E6; color: #4B0082; border: none; border-radius: 20px; cursor: pointer; display: block; margin-left: auto; margin-right: auto; text-align: center; display: flex; align-items: center; justify-content: center;">發送</button>
+            </div>
+        </aside>
+    </div>
+    
+    <script>
+        function sendMessage() {
+            var chatBox = document.getElementById('chat-box');
+            var chatInput = document.getElementById('chat-input');
+            var message = chatInput.value;
+    
+            if (message.trim() !== '') {
+                var newMessage = document.createElement('div');
+                newMessage.textContent = message;
+                newMessage.style.marginBottom = '10px';
+                chatBox.appendChild(newMessage);
+                chatInput.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+    </script>
+     
+    
+    
 
     <!-- 登入/註冊模態框 -->
     {% include 'login_modal.html' %}
