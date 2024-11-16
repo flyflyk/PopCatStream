@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PopCatStream</title>
     <link rel="stylesheet" href="/static/css/main.css">
-    <link rel="stylesheet" href="/static/css/modal.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
@@ -22,30 +22,15 @@
         </div>
     </header>
     
+    <!-- 下拉選單 -->>
     <div class="menu" onclick="toggleMenu()">
         <div></div>
         <div></div>
         <div></div>
     </div>
     <div id="menu-options" style="display: none;">
-        <button onclick="startLive()">我要直播</button>
+        <div id="create-button"></div>
     </div>
-
-    <script>
-        function toggleMenu() {
-            var menuOptions = document.getElementById('menu-options');
-            if (menuOptions.style.display === 'none') {
-                menuOptions.style.display = 'block';
-            } else {
-                menuOptions.style.display = 'none';
-            }
-        }
-
-        function startLive() {
-            alert('開始直播！');
-            // 在這裡添加開始直播的功能
-        }
-    </script>  
 
     <!-- 主要內容 -->
     <div style="display: flex;">
@@ -59,46 +44,12 @@
                 </div>
             </main>
         </div>
-        <aside style="width: 300px; background-color: #444; padding: 20px; color: #FFD700;">
-            <h2>聊天室</h2>
-            <div id="chat-box" style="height: 400px; overflow-y: scroll; background-color: #FFFFE0; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                <!-- 這裡會顯示聊天訊息 -->
-            </div>
-            <div style="display: flex; flex-direction: column;">
-                <input type="text" id="chat-input" placeholder="輸入訊息..." style="flex: 1; padding: 10px; border-radius: 5px; border: none; box-sizing: border-box; margin-bottom: 10px;">
-                <button onclick="sendMessage()" style="width: 100px; height: 40px; background-color: #ADD8E6; color: #4B0082; border: none; border-radius: 20px; cursor: pointer; display: block; margin-left: auto; margin-right: auto; text-align: center; display: flex; align-items: center; justify-content: center;">發送</button>
-            </div>
-        </aside>
+        {% include 'chat.html' %}
     </div>
-    
-    <script>
-        function sendMessage() {
-            var chatBox = document.getElementById('chat-box');
-            var chatInput = document.getElementById('chat-input');
-            var message = chatInput.value;
-    
-            if (message.trim() !== '') {
-                var newMessage = document.createElement('div');
-                newMessage.textContent = message;
-                newMessage.style.marginBottom = '10px';
-                chatBox.appendChild(newMessage);
-                chatInput.value = '';
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        }
-    </script>
-     
-    
-    
-
-    <!-- 登入/註冊模態框 -->
-    {% include 'login_modal.html' %}
-    {% include 'signup_modal.html' %}
 
     <!-- 載入 JavaScript -->
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/login_modal.js"></script>
-    <script src="/static/js/signup_modal.js"></script>
+    <script src="/static/js/live_stream.js"></script>
+    <script src="/static/js/chat.js"></script>
 
 </body>
 </html>

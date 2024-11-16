@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Blueprint, jsonify, redirect, url_for, request
+from flask import Blueprint, jsonify, redirect, session, url_for, request
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -7,6 +7,8 @@ auth_bp = Blueprint('auth', __name__)
 def signup():
     username = request.form['username']
     password = request.form['password']
+    session['username'] = username
+    session['password'] = password
     
     # 保存帳戶資料到數據庫
     conn = sqlite3.connect('instance/app.db')
@@ -49,4 +51,15 @@ def check_login():
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
+    session['username'] = username
+    session['password'] = password
     return redirect(url_for('index'))
+
+@auth_bp.route('/get_username', methods=['GET'])
+def getUsername():
+    username = session.get('username')
+    
+    if username:
+        return jsonify({'username': username})
+    else:
+        return jsonify({'error': 'User not logged in'}), 401

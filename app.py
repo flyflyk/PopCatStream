@@ -5,6 +5,7 @@ from app.routes.auth_routes import auth_bp
 from app.routes.stream_routes import stream_bp
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
+app.secret_key = 'KEY'
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(stream_bp)
