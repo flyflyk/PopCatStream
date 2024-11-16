@@ -112,6 +112,5 @@ confirmPasswordInput.addEventListener('blur', function() {
 });
 
 signupButton.addEventListener('click', function() {
-    sessionStorage.setItem('loggedIn', 'true');
     alert('註冊成功');
 });

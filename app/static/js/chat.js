@@ -17,17 +17,25 @@ window.onload = async function() {
 function sendMessage() {
     const chatInput = document.getElementById('chat-input');
     const message = chatInput.value.trim();
-    
-    if (message && username) {
+
+    // 確保從 localStorage 或其他來源獲取 username
+    const username = localStorage.getItem('username') || '匿名用戶';
+
+    if (message) {
         const chatBox = document.getElementById('chat-box');
         const messageElement = document.createElement('div');
+        
+        // 顯示 {username}: {text}
         messageElement.textContent = `${username}: ${message}`;
+        
+        // 新增訊息至聊天框
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
         
-        // Clear the input field
+        // 清空輸入欄
         chatInput.value = '';
-    } else if (!username) {
-        console.error('Username not available');
+    } else {
+        console.error('訊息為空，請輸入訊息');
     }
 }
+

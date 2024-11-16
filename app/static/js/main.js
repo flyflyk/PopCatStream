@@ -4,10 +4,12 @@ function isLoggedIn() {
 
 function login() {
     localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('username', data.username);
 }
 
 function logout() {
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('username');
 }
 
 function toggleDropdown() {
@@ -27,12 +29,14 @@ function toggleMenu() {
 window.onload = function() {
     const authButtons = document.getElementById('auth-buttons');
     const createButton = document.getElementById('create-button');
+    const username = localStorage.getItem('username') || '匿名用戶';
 
     if (isLoggedIn()) {
         authButtons.innerHTML = `
             <div class="dropdown">
                 <img src="/static/images/profile.png" alt="Profile" class="profile-icon" onclick="toggleDropdown()">
                 <div id="dropdownProfile" class="dropdown-content">
+                    <span>${username}</span>
                     <a href="/profile">個人資料</a>
                     <a href="/" onclick="logout()">登出</a>
                 </div>
