@@ -29,7 +29,8 @@ loginButton.addEventListener('click', function(e) {
         if (data.success) {
             loginNameError.textContent = "";
             loginPasswordError.textContent = "";
-            login()
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('username', username);
             alert('登入成功');
             document.getElementById('loginForm').submit();
         } else if (data.errorCode == 1) {
@@ -42,6 +43,5 @@ loginButton.addEventListener('click', function(e) {
     })
     .catch(error => {
         console.error('Error:', error);
-        loginError.textContent = '伺服器錯誤，請稍後再試';
     });
 });

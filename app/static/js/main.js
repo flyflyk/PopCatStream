@@ -2,11 +2,6 @@ function isLoggedIn() {
     return localStorage.getItem('loggedIn') === 'true'; // localStorage會永久保存
 }
 
-function login() {
-    localStorage.setItem('loggedIn', 'true');
-    localStorage.setItem('username', data.username);
-}
-
 function logout() {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('username');
