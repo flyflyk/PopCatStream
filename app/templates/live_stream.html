@@ -37,15 +37,19 @@
         <div style="margin-left: 100px; flex: 1;"> <!-- 外部容器，向右空三格 -->
             <main style="padding: 50px;">
                 <div style="margin-top: 20px; text-align: left;">
-                    <video id="liveVideo" width="700" height="400" controls>
-                        <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
-                        您的瀏覽器不支持視頻標籤。
-                    </video>
+                    <!-- 修改過的部分：將ID設為liveVideo，統一顯示螢幕分享或鏡頭內容 -->
+                    <video id="liveVideo" width="700" height="400" controls autoplay></video>
+                </div>
+                <div class="control-buttons">
+                    <button id="shareScreenButton" class="oval-button">分享螢幕</button>
+                    <button id="startCameraButton" class="oval-button">打開視訊鏡頭</button>
                 </div>
             </main>
         </div>
         {% include 'chat.html' %}
     </div>
+
+
 
     <!-- 載入 JavaScript -->
     <script src="/static/js/live_stream.js"></script>

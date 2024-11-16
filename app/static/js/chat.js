@@ -27,6 +27,7 @@ function sendMessage() {
         
         // 顯示 {username}: {text}
         messageElement.textContent = `${username}: ${message}`;
+        messageElement.style.color = '#4B0082';
         
         // 新增訊息至聊天框
         chatBox.appendChild(messageElement);

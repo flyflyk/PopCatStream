@@ -128,3 +128,21 @@ h1 {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+.control-buttons {
+    display: flex;
+    flex-direction: row; /* 將按鈕排列在同一行 */
+    align-items: center; /* 將按鈕垂直居中 */
+    gap: 10px; /* 按鈕之間的間距 */
+    margin-top: 20px;
+}
+
+
+.oval-button {
+    padding: 10px 20px; /* 按鈕內邊距 */
+    border: none;
+    border-radius: 50px; /* 使按鈕呈橢圓形 */
+    background-color: #ADD8E6; /* 按鈕背景顏色 */
+    color: #4B0082; /* 按鈕文字顏色 */
+    cursor: pointer;
+}

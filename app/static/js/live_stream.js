@@ -51,3 +51,39 @@ window.onclick = function(event) {
         }
     }
 }
+
+// 修改過的部分：添加事件監聽器，處理螢幕分享和鏡頭開啟功能
+document.getElementById('shareScreenButton').addEventListener('click', async () => {
+    try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const liveVideo = document.getElementById('liveVideo'); // 統一顯示螢幕分享或鏡頭內容
+        liveVideo.srcObject = screenStream;
+    } catch (err) {
+        console.error("Error: " + err);
+    }
+});
+
+document.getElementById('startCameraButton').addEventListener('click', async () => {
+    try {
+        const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const liveVideo = document.getElementById('liveVideo'); // 統一顯示螢幕分享或鏡頭內容
+        liveVideo.srcObject = cameraStream;
+    } catch (err) {
+        console.error("Error: " + err);
+    }
+});
+
+function sendMessage() {
+    var chatBox = document.getElementById('chat-box');
+    var chatInput = document.getElementById('chat-input');
+    var message = chatInput.value;
+
+    if (message.trim() !== '') {
+        var newMessage = document.createElement('div');
+        newMessage.textContent = message;
+        newMessage.style.marginBottom = '10px';
+        chatBox.appendChild(newMessage);
+        chatInput.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+}

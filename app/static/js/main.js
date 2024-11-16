@@ -37,10 +37,12 @@ window.onload = function() {
                 </div>
             </div>
         `;
-        createButton.innerHTML = `<button>建立直播</button>`;
-        createButton.onclick = function() {
-            window.location.href = '/createLive';
-        };
+        createButton.innerHTML = `
+            <div style="display: flex; flex-direction: column;">
+                <button onclick="window.location.href='/createLive'" style="margin-bottom: 10px;">建立直播</button>
+                <button onclick="window.location.href='/channelCategories'">頻道分類</button>
+            </div>
+        `;
 
     } else {
         authButtons.innerHTML = `
