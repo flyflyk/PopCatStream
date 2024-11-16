@@ -23,7 +23,7 @@ function toggleMenu() {
 
 window.onload = function() {
     const authButtons = document.getElementById('auth-buttons');
-    const createButton = document.getElementById('create-button');
+    const menuOptions = document.getElementById('menu-options');
     const username = localStorage.getItem('username') || '匿名用戶';
 
     if (isLoggedIn()) {
@@ -31,13 +31,13 @@ window.onload = function() {
             <div class="dropdown">
                 <img src="/static/images/profile.png" alt="Profile" class="profile-icon" onclick="toggleDropdown()">
                 <div id="dropdownProfile" class="dropdown-content">
-                    <span>${username}</span>
+                    <a>${username}</a>
                     <a href="/profile">個人資料</a>
                     <a href="/" onclick="logout()">登出</a>
                 </div>
             </div>
         `;
-        createButton.innerHTML = `
+        menuOptions.innerHTML = `
             <div style="display: flex; flex-direction: column;">
                 <button onclick="window.location.href='/createLive'" style="margin-bottom: 10px;">建立直播</button>
                 <button onclick="window.location.href='/channelCategories'">頻道分類</button>
@@ -48,6 +48,11 @@ window.onload = function() {
         authButtons.innerHTML = `
             <button class="login-button" onclick="openLoginModal()">Log in</button>
             <button class="signup-button" onclick="openSignupModal()">Sign up</button>
+        `;
+        menuOptions.innerHTML = `
+            <div style="display: flex; flex-direction: column;">
+                <button onclick="window.location.href='/channelCategories'">頻道分類</button>
+            </div>
         `;
     }
 };

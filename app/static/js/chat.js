@@ -1,4 +1,12 @@
 let username = '';
+const chatInput = document.getElementById('chat-input');
+
+// 監聽 Enter 鍵事件
+chatInput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        sendMessage(); 
+    }
+});
 
 window.onload = async function() {
     try {
@@ -25,11 +33,9 @@ function sendMessage() {
         const chatBox = document.getElementById('chat-box');
         const messageElement = document.createElement('div');
         
-        // 顯示 {username}: {text}
         messageElement.textContent = `${username}: ${message}`;
         messageElement.style.color = '#4B0082';
         
-        // 新增訊息至聊天框
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
         

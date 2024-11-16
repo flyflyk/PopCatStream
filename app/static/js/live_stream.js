@@ -52,7 +52,7 @@ window.onclick = function(event) {
     }
 }
 
-// 修改過的部分：添加事件監聽器，處理螢幕分享和鏡頭開啟功能
+// 添加事件監聽器，處理螢幕分享和鏡頭開啟功能
 document.getElementById('shareScreenButton').addEventListener('click', async () => {
     try {
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
