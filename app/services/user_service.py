@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-class UserModel:
+class UserHandler:
     def __init__(self, db_path='instance/app.db'):
         self.db_path = db_path
 

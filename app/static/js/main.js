@@ -39,8 +39,8 @@ window.onload = function() {
         `;
         menuOptions.innerHTML = `
             <div style="display: flex; flex-direction: column;">
-                <button onclick="window.location.href='/createLive'" style="margin-bottom: 10px;">建立直播</button>
-                <button onclick="window.location.href='/channelCategories'">頻道分類</button>
+                <button onclick="window.location.href='/createLive'">建立直播</button>
+                <button onclick="window.location.href='/channels'">頻道分類</button>
             </div>
         `;
 

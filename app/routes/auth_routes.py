@@ -1,19 +1,16 @@
 import sqlite3
 from flask import Blueprint, jsonify, redirect, session, url_for, request
+from app.services.user_service import UserHandler
 
 auth_bp = Blueprint('auth', __name__)
+userHandler = UserHandler()
 
 @auth_bp.route('/signup', methods=['POST'])
 def signup():
     username = request.form['username']
     password = request.form['password']
     
-    # 保存帳戶資料到數據庫
-    conn = sqlite3.connect('instance/app.db')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
-    conn.commit()
-    conn.close()
+    userHandler.create_user(username, password)
     return redirect(url_for('index')) 
 
 @auth_bp.route('/check_username', methods=['POST'])
