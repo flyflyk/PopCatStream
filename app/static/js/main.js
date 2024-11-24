@@ -38,7 +38,7 @@ window.onload = function() {
             </div>
         `;
         menuOptions.innerHTML = `
-            <div style="display: flex; flex-direction: column;">
+            <div style="display: flex; flex-direction: column; gap: 9px;">
                 <button onclick="window.location.href='/createLive'">建立直播</button>
                 <button onclick="window.location.href='/channels'">頻道分類</button>
             </div>
