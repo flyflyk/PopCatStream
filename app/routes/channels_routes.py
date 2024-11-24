@@ -6,6 +6,5 @@ channels_bp = Blueprint('channels', __name__)
 
 @channels_bp.route('/channels', methods=['GET'])
 def channels():
-
     return render_template('channels.html')
 

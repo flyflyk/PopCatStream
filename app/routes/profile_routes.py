@@ -6,11 +6,6 @@ profile_bp = Blueprint('profile', __name__)
 
 @profile_bp.route('/profile', methods=['GET'])
 def profile():
-    # 確認用戶是否登入
-    username = session.get('username')
-    if not username:
-        return redirect(url_for('auth.login'))  # 如果未登入，重定向至登入頁面
-
     conn = sqlite3.connect('instance/app.db')
     cursor = conn.cursor()
 

@@ -50,8 +50,8 @@ window.onload = function() {
             <button class="signup-button" onclick="openSignupModal()">Sign up</button>
         `;
         menuOptions.innerHTML = `
-            <div style="display: flex; flex-direction: column;">
-                <button onclick="window.location.href='/channelCategories'">頻道分類</button>
+            <div style="display: flex; flex-direction: column; gap: 9px;">
+                <button onclick="window.location.href='/channels'">頻道分類</button>
             </div>
         `;
     }
