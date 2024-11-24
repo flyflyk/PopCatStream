@@ -1,11 +1,12 @@
 import json
-from flask import Blueprint, render_template, session, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
 import sqlite3
 
 profile_bp = Blueprint('profile', __name__)
 
 @profile_bp.route('/profile', methods=['GET'])
 def profile():
+    username = request.args.get('username')
     conn = sqlite3.connect('instance/app.db')
     cursor = conn.cursor()
 

@@ -32,7 +32,7 @@ window.onload = function() {
                 <img src="/static/images/profile.png" alt="Profile" class="profile-icon" onclick="toggleDropdown()">
                 <div id="dropdownProfile" class="dropdown-content">
                     <a>${username}</a>
-                    <a href="/profile">個人資料</a>
+                    <a href="/profile?username=${username}">個人資料</a>
                     <a href="/" onclick="logout()">登出</a>
                 </div>
             </div>
