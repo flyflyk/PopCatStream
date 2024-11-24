@@ -32,7 +32,21 @@
             max-width: 500px; /* 框框的最大寬度 */
         }
         .content h1, .content p, .content h2, .content ul li {
-            color: #fc07eb; /* 子體文字顏色 */
+            color: #ff00ee; /* 子體文字顏色 */
+        }
+        .back-button { 
+            padding: 10px 20px; 
+            background-color: #FFD700; 
+            color: #333; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            position: absolute; /* 使按鈕絕對定位 */ 
+            bottom: 20px; /* 距離底部20px */ 
+            left: 20px; /* 距離左側20px */ }
+        .back-button:hover {
+            background-color: #FFA500;
         }
 
     </style>
@@ -73,5 +87,6 @@
         </div>
     </div>
 
+    <button class="back-button" onclick="window.history.back()">返回</button>
 </body>
 </html>
