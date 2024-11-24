@@ -2,23 +2,76 @@
 <html>
 <head>
     <title>個人資料</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        /* 中心對齊內容 */
+        body {
+            background-color: #333;
+            color: #b81ff0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #FFD700; /* 添加框框的邊框 */
+            width: 40%; /* 框框的寬度 */
+            padding: 50px; /* 框框的內邊距 */
+            box-sizing: border-box; /* 包括padding在內計算寬度和高度 */
+            background-color: #e8e99c; /* 框框內部的背景顏色 */
+        }
+        .content {
+            text-align: center;
+            max-width: 500px; /* 框框的最大寬度 */
+        }
+        .content h1, .content p, .content h2, .content ul li {
+            color: #fc07eb; /* 子體文字顏色 */
+        }
+
+    </style>
+
+
 </head>
-<body>
-    <h1>歡迎, {{ username }}</h1>
-    <p>餘額: {{ balance }}</p>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px; position: absolute; top: 0; width: 100%;">
+        <div style="flex: 1;">
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
+            </a>
+        </div>
+        <h2 class="site-title">popcatstream</h2>
+        <div id="auth-buttons" style="flex: 1; text-align: right;">
+        </div>
+    </header>
 
-    <h2>追蹤中的創作者</h2>
-    <ul>
-        {% for creator in followed_creators %}
-            <li>{{ creator }}</li>
-        {% endfor %}
-    </ul>
+    <!-- 用框框框住 header 以外的部分 -->
+    <div class="content-wrapper">
+        <div class="content">
+            <h1>歡迎, {{ username }}</h1>
+            <p>餘額: {{ balance }}</p>
 
-    <h2>粉絲列表</h2>
-    <ul>
-        {% for fan in fans_list %}
-            <li>{{ fan }}</li>
-        {% endfor %}
-    </ul>
+            <h2>追蹤中的創作者</h2>
+            <ul>
+                {% for creator in followed_creators %}
+                    <li>{{ creator }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>粉絲列表</h2>
+            <ul>
+                {% for fan in fans_list %}
+                    <li>{{ fan }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>
