@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>個人資料</title>
+</head>
+<body>
+    <h1>歡迎, {{ username }}</h1>
+    <p>餘額: {{ balance }}</p>
+
+    <h2>追蹤中的創作者</h2>
+    <ul>
+        {% for creator in followed_creators %}
+            <li>{{ creator }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>粉絲列表</h2>
+    <ul>
+        {% for fan in fans_list %}
+            <li>{{ fan }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
