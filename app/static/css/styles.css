@@ -91,10 +91,30 @@ body {
     display: flex;
     align-items: center;
 }
-.lists-wrapper { 
-    border: 2px solid #FFD700; /* 添加框框的邊框 */ 
-    color: #f700ff !important; /* 字體顏色 */ 
-    background-color: #e8e99c; /* 框框內部的背景顏色 */ 
-    width: 100%; /* 確保寬度佔滿容器 */
-    padding-top: 20px; /* 增加上方間距 */
+
+/* 新的容器框框，將密碼、名稱、粉絲、追蹤者框框包住 */
+.combined-wrapper {
+    border: 2px solid #FFD700; /* 添加金色邊框 */
+    padding: 20px; /* 內邊距，確保內容不會靠近邊框 */
+    width: 100%; /* 寬度設定為 100% */
+    box-sizing: border-box; /* 確保內邊距包含在寬度內 */
+    display: flex;
+    flex-direction: row; /* 使用 row 讓內容並排 */
+    justify-content: space-between; /* 使左右兩側內容有間隔 */
+    gap: 20px; /* 兩個區塊間的間隔 */
+}
+
+/* 保持原本的設計不變 */
+.user-settings, .lists-wrapper {
+    flex: 1; /* 使兩個區塊佔據父容器相等的空間 */
+    color: #f700ff !important;
+    background-color: #e8e99c;
+    padding-top: 20px;
+    border: 2px solid #FFD700; /* 金色邊框 */
+}
+
+/* 保持粉絲和追蹤者區塊的原來設計 */
+.lists-wrapper {
+    color: #f700ff !important;
+    background-color: #e8e99c;
 }
