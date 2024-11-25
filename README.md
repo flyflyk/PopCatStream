@@ -7,7 +7,7 @@
 - Python 3.6 及以上版本
 - pip（Python 的包管理工具）
 
-## 執行步驟
+## 本地執行步驟
 
 ### 1. 創建虛擬環境
 
@@ -34,12 +34,18 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. 啟動網頁
+### 4. 產生ssl簽證(需下載openssl)
+
+```bash
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+```
+
+### 5. 啟動網頁
 
 在專案目錄執行
 ```bash
 python app.py
 ```
 
-### 5. 前往網頁
-在瀏覽器打上網址http://127.0.0.1:5000
+### 6. 前往網頁
+在瀏覽器打上網址https://127.0.0.1:8443
