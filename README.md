@@ -91,4 +91,6 @@ chmod +x setup_env.sh
 把setup_env.sh中nginx的配置複製貼上:
 ```bash
 sudo nano /etc/nginx/sites-available/popcatstream
+sudo nginx -t
+sudo systemctl restart nginx
 ```
