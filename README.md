@@ -56,7 +56,15 @@ python app.py
 
 按照以下內容配置虛擬機:
 ```bash
-...
+虛擬機器名稱: popcat
+安全性類型: 標準
+影像: Ubuntu Server 24.04 LTS - x64 第二代
+大小: Standard_D2s_v3 - 2個vcpu，8 GiB 記憶體
+驗證類型: 密碼
+使用者名稱: popcat
+密碼: @Stream87878
+選取輸入連接埠: HTTP, HTTPS, SSH
+OS 磁碟類型: 標準 HDD
 ```
 ### 2. 網路設定
 
