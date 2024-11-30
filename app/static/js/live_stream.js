@@ -72,29 +72,3 @@ document.getElementById('startCameraButton').addEventListener('click', async () 
         console.error("Error: " + err);
     }
 });
-
-// 建立WebSocket連接
-const socket = new WebSocket('ws://localhost:8443');
-
-socket.onopen = function(event) {
-    console.log('WebSocket is connected.');
-};
-
-socket.onmessage = function(event) {
-    var chatBox = document.getElementById('chat-box');
-    var newMessage = document.createElement('div');
-    newMessage.textContent = event.data;
-    newMessage.style.marginBottom = '10px';
-    chatBox.appendChild(newMessage);
-    chatBox.scrollTop = chatBox.scrollHeight;
-};
-
-function sendMessage() {
-    var chatInput = document.getElementById('chat-input');
-    var message = chatInput.value;
-
-    if (message.trim() !== '') {
-        socket.send(message); // 使用WebSocket發送訊息
-        chatInput.value = '';
-    }
-}
