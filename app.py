@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 from app.routes.auth_routes import auth_bp
 from app.routes.stream_routes import stream_bp
 from app.routes.profile_routes import profile_bp
@@ -8,6 +9,7 @@ from app.services.database_service import DatabaseHandler
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'KEY'
+socketio = SocketIO(app)
 dbHandler = DatabaseHandler()
 
 app.register_blueprint(auth_bp)
@@ -21,6 +23,10 @@ CORS(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@socketio.on('message')
+def handle_message(data):
+    emit('message', data, broadcast=True)  # 將訊息發送給所有連接的用戶
 
 if __name__ == '__main__':
     dbHandler.initUsers()
