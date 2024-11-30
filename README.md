@@ -49,3 +49,34 @@ python app.py
 
 ### 6. 前往網頁
 在瀏覽器打上網址https://127.0.0.1:8443
+
+## 使用Azure執行步驟
+
+### 1. 創建虛擬機器(VM)
+
+按照以下內容配置虛擬機:
+```bash
+...
+```
+### 2. 網路設定
+
+前往虛擬機>網路>網路設定後:
+#### 1. HTTPS優先順序設定為290
+#### 2. 建立連接埠規則>輸入連接埠規則:
+    目的地連接埠範圍改成8443
+
+### 3. 本地連接虛擬機
+
+在本地開啟cmd並輸入:
+```bash
+ssh popcat@<vm public ip>
+```
+
+成功連上後輸入:
+```bash
+git clone https://github.com/flyflyk/PopCatStream.git
+cd PopCatStream
+chmod +x setup_env.sh
+./setup_env.sh
+```
+
