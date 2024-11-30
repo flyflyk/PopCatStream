@@ -19,7 +19,7 @@ server {
     server_name _;
 
     # 將所有 HTTP 請求重定向到 HTTPS
-    return 301 https://\$host\$request_uri;
+    return 301 https://$host$request_uri;
 }
 
 server {
@@ -35,10 +35,10 @@ server {
         proxy_pass https://127.0.0.1:8443;
 
         # 設置正確的 HTTP 標頭以便代理
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 EOF"

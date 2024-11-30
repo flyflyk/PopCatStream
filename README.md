@@ -86,4 +86,9 @@ cd PopCatStream
 chmod +x setup_env.sh
 ./setup_env.sh
 ```
+### 4. 修改nginx配置
 
+把setup_env.sh中nginx的配置複製貼上:
+```bash
+sudo nano /etc/nginx/sites-available/popcatstream
+```
