@@ -49,6 +49,7 @@ sudo ln -s /etc/nginx/sites-available/popcatstream /etc/nginx/sites-enabled/
 sudo nginx -t  # 測試 Nginx 
 sudo systemctl restart nginx  # 重啟 Nginx
 
+# 允許防火牆
 sudo ufw allow 80,443/tcp 
 
-echo "部署完成！可以執行 'python app.py' 來啟動應用。"
+echo "部署完成！可以執行 'source venv/bin/activate && python app.py' 來啟動應用。"
