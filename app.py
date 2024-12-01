@@ -9,7 +9,7 @@ from app.services.database_service import DatabaseHandler
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'KEY'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 dbHandler = DatabaseHandler()
 users = set()
 

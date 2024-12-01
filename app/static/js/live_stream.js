@@ -1,4 +1,4 @@
-const socket = io.connect('https://127.0.0.1:8443');
+const socket = io.connect('https://4.188.74.220:8443');
 const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
