@@ -97,4 +97,7 @@ sudo systemctl restart nginx
 
 ### 5. 修改live_stream.js
 
+```bash
+sudo nano /home/popcat/PopCatStream/app/static/js/live_stream.js
+```
 live_stream的第一行:const socket = io.connect('https://<VM public IP>:8443');
