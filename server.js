@@ -1,8 +1,8 @@
-const express = require('express');
-const https = require('https');
-const { Server } = require('socket.io');
-const fs = require('fs');
-const cors = require('cors');
+import express from 'express';
+import { createServer } from 'https';
+import { Server } from 'socket.io';
+import { readFileSync } from 'fs';
+import cors from 'cors';
 
 const app = express();
 const corsOptions = {
@@ -13,10 +13,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const options = {
-  key: fs.readFileSync('/home/popcat/PopCatStream/key.pem'), 
-  cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'), 
+  key: readFileSync('/home/popcat/PopCatStream/key.pem'), 
+  cert: readFileSync('/home/popcat/PopCatStream/cert.pem'), 
 };
-const server = https.createServer(options, app);
+const server = createServer(options, app);
 const io = new Server(server);
 const users = {};
 

@@ -21,18 +21,14 @@ document.getElementById('startCameraButton').addEventListener('click', async () 
 });
 
 function broadcastStream(stream) {
-    const liveVideo = document.getElementById('liveVideo'); // 本地顯示
+    const liveVideo = document.getElementById('liveVideo');
     liveVideo.srcObject = stream;
 
-    for (const [id, peerConnection] of Object.entries(peerConnections)) {
-        stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
-    }
-
-    for (const [id, peerConnection] of Object.entries(peerConnections)) {
-        peerConnection.addTrack(stream.getTracks()[0], stream);
-    }
+    // 遍歷所有已經建立的連接
+    Object.values(peerConnections).forEach(peerConnection => {
+        stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+    });
 }
-
 
 socket.on('new-user', (id) => {
     if (!peerConnections[id]) {
