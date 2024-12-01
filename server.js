@@ -26,6 +26,11 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('new-user', socket.id);
 
+  socket.on('message', (data) => {
+    console.log(`Received message from ${data.username}: ${data.message}`);
+    io.emit('message', data);
+  });
+
   socket.on('offer', ({ offer, to }) => {
     console.log(`Forwarding offer from ${socket.id} to ${to}`);
     if (users[to]) {
