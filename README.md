@@ -70,7 +70,7 @@ python app.py
 
 前往虛擬機>網路>網路設定後:
 #### 1. HTTPS優先順序設定為290
-#### 2. 建立連接埠規則>輸入連接埠規則，將"目的地連接埠範圍"改成8443
+#### 2. 建立連接埠規則>輸入連接埠規則，新增8443和8444
 
 ### 3. 本地連接虛擬機
 
@@ -130,7 +130,7 @@ sudo systemctl restart nginx
 ```bash
 sudo nano /home/popcat/PopCatStream/app/static/js/live_stream.js
 ```
-live_stream的第一行:const socket = io.connect('https://<VM public IP>:8443');
+live_stream的第一行:const socket = io.connect('https://<VM public IP>:8444');
 
 ### 6. 啟動網頁
 
