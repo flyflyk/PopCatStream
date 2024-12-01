@@ -26,7 +26,7 @@ sudo nginx -t  # 測試 Nginx
 sudo systemctl restart nginx  # 重啟 Nginx
 
 # 允許防火牆
-sudo ufw allow 80,443,8443/tcp
+sudo ufw allow 80,443,8443,8444/tcp
 
 # npm 配置
 sudo npm install express socket.io socket.io-client
