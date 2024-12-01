@@ -13,8 +13,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const options = {
-  key: fs.readFileSync('key.pem'), 
-  cert: fs.readFileSync('cert.pem'), 
+  key: fs.readFileSync('/home/popcat/PopCatStream/key.pem'), 
+  cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'), 
 };
 const server = https.createServer(options, app);
 const io = new Server(server);
