@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 });
 
 // 啟動伺服器
-const PORT = 8443;
+const PORT = 8444;
 server.listen(PORT, () => {
     console.log(`Server running on https://127.0.0.1:${PORT}`);
 });

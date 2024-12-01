@@ -1,4 +1,4 @@
-const socket = io.connect('https://127.0.0.1:8443');
+const socket = io.connect('https://127.0.0.1:8444');
 const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
@@ -24,16 +24,15 @@ function broadcastStream(stream) {
     const liveVideo = document.getElementById('liveVideo'); // 本地顯示
     liveVideo.srcObject = stream;
 
-    // 將流中的每條軌道添加到每個 PeerConnection
     for (const [id, peerConnection] of Object.entries(peerConnections)) {
         stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
     }
 
-    // 直接將本地流發送給伺服器
     for (const [id, peerConnection] of Object.entries(peerConnections)) {
         peerConnection.addTrack(stream.getTracks()[0], stream);
     }
 }
+
 
 socket.on('new-user', (id) => {
     if (!peerConnections[id]) {
@@ -50,10 +49,18 @@ socket.on('new-user', (id) => {
             const remoteVideo = document.createElement('video');
             remoteVideo.srcObject = event.streams[0];
             remoteVideo.autoplay = true;
+            remoteVideo.id = id; // 設置 ID 以便顯示和移除
             document.getElementById('remoteVideos').appendChild(remoteVideo);
         };
+
+        // 確保在新用戶連接時傳送本地流
+        const localStream = liveVideo.srcObject;
+        if (localStream) {
+            localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
+        }
     }
 });
+
 
 socket.on('offer', async ({ offer, from }) => {
     const peerConnection = new RTCPeerConnection(configuration);
