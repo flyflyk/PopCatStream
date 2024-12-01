@@ -17,7 +17,12 @@ const options = {
   cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'), 
 };
 const server = https.createServer(options, app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+      origin: ['https://20.92.229.26:8443', 'https://20.92.229.26:8444'],
+      methods: ['GET', 'POST'],
+    },
+  });
 const users = {};
 
 io.on('connection', (socket) => {
