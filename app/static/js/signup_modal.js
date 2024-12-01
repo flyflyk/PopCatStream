@@ -27,7 +27,7 @@ function updateSignupBtnState() {
     const passwordValid = passwordError.textContent === "";
     const confirmPasswordValid = confirmPasswordError.textContent === "";
 
-    signupButton.disabled = !((!usernameValid) && (!passwordValid) && (confirmPasswordValid));
+    signupButton.disabled = !((usernameValid) && (passwordValid) && (confirmPasswordValid))
 }
 
 // Global variables
@@ -39,7 +39,6 @@ const signupButton = document.getElementById('signupButton');
 const usernameError = document.getElementById('signup_usernameError');
 const passwordError = document.getElementById('signup_passwordError');
 const confirmPasswordError = document.getElementById('signup_confirmPasswordError');
-
 
 // 當用戶點擊模態框中的關閉按鈕（X）時，關閉模態框
 closeButtons.forEach(button => {
