@@ -1,22 +1,22 @@
-import express from 'express';
-import { createServer } from 'https';
-import { Server } from 'socket.io';
-import { readFileSync } from 'fs';
-import cors from 'cors';
+const express = require('express');
+const https = require('https');
+const { Server } = require('socket.io');
+const fs = require('fs');
+const cors = require('cors');
 
 const app = express();
 const corsOptions = {
-  origin: 'https://20.92.229.26',
+  origin: 'https://20.92.229.26:8443',
   methods: ['GET', 'POST'],
 };
 
 app.use(cors(corsOptions));
 
 const options = {
-  key: readFileSync('/home/popcat/PopCatStream/key.pem'), 
-  cert: readFileSync('/home/popcat/PopCatStream/cert.pem'), 
+  key: fs.readFileSync('/home/popcat/PopCatStream/key.pem'), 
+  cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'), 
 };
-const server = createServer(options, app);
+const server = https.createServer(options, app);
 const io = new Server(server);
 const users = {};
 

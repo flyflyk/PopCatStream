@@ -16,7 +16,7 @@ app.register_blueprint(profile_bp)
 app.register_blueprint(channels_bp)
 
 # 啟用跨來源資源共享 (CORS)
-CORS(app)
+CORS(app, origins="https://20.92.229.26:8444")
 
 @app.route('/')
 def index():
