@@ -2,9 +2,6 @@ const chatInput = document.getElementById('chat-input');
 const chatBox = document.getElementById('chat-box');
 const username = localStorage.getItem('username') || '匿名用戶';
 
-// 創建 WebSocket 連接
-const socket = io.connect('https://127.0.0.1:8443');  // 與伺服器建立 WebSocket 連接
-
 // 當接收到來自伺服器的訊息時，將訊息顯示在聊天室
 socket.on('message', function(data) {
     if (username != data.username) {

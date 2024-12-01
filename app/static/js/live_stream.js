@@ -1,74 +1,109 @@
-function toggleMenu() {
-    var menuOptions = document.getElementById('menu-options');
-    if (menuOptions.style.display === 'none') {
-        menuOptions.style.display = 'block';
-    } else {
-        menuOptions.style.display = 'none';
-    }
-}
+const socket = io.connect('https://127.0.0.1:8443');
+const peerConnections = {};
+const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
-function toggleDropdown() {
-    const dropdownList = document.getElementById('dropdownProfile');
-    dropdownList.style.display = dropdownList.style.display === 'none' ? 'block' : 'none';
-}
-
-window.onload = function() {
-    const authButtons = document.getElementById('auth-buttons');
-    const createButton = document.getElementById('create-button');
-
-    if (isLoggedIn()) {
-        authButtons.innerHTML = `
-            <div class="dropdown">
-                <img src="/static/images/profile.png" alt="Profile" class="profile-icon" onclick="toggleDropdown()">
-                <div id="dropdownProfile" class="dropdown-content">
-                    <a href="/profile">個人資料</a>
-                    <a href="/" onclick="logout()">登出</a>
-                </div>
-            </div>
-        `;
-        createButton.innerHTML = `<button>建立直播</button>`;
-        createButton.onclick = function() {
-            window.location.href = '/createLive';
-        };
-
-    } else {
-        authButtons.innerHTML = `
-            <button class="login-button" onclick="openLoginModal()">Log in</button>
-            <button class="signup-button" onclick="openSignupModal()">Sign up</button>
-        `;
-    }
-};
-
-// 點擊頁面其他地方時，關閉下拉選單
-window.onclick = function(event) {
-    if (!event.target.matches('img')) {
-        const dropdowns = document.getElementsByClassName('dropdown-content');
-        for (let i = 0; i < dropdowns.length; i++) {
-            const openDropdown = dropdowns[i];
-            if (openDropdown.style.display === 'block') {
-                openDropdown.style.display = 'none';
-            }
-        }
-    }
-}
-
-// 添加事件監聽器，處理螢幕分享和鏡頭開啟功能
+// 當用戶點擊螢幕分享按鈕
 document.getElementById('shareScreenButton').addEventListener('click', async () => {
     try {
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        const liveVideo = document.getElementById('liveVideo'); // 統一顯示螢幕分享或鏡頭內容
-        liveVideo.srcObject = screenStream;
+        broadcastStream(screenStream);
     } catch (err) {
         console.error("Error: " + err);
     }
 });
 
+// 當用戶點擊鏡頭開啟按鈕
 document.getElementById('startCameraButton').addEventListener('click', async () => {
     try {
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const liveVideo = document.getElementById('liveVideo'); // 統一顯示螢幕分享或鏡頭內容
-        liveVideo.srcObject = cameraStream;
+        broadcastStream(cameraStream);
     } catch (err) {
         console.error("Error: " + err);
     }
+});
+
+// 將媒體流廣播給所有用戶
+function broadcastStream(stream) {
+    const liveVideo = document.getElementById('liveVideo'); // 本地顯示
+    liveVideo.srcObject = stream;
+
+    // 將流中的每條軌道添加到每個 PeerConnection
+    for (const [id, peerConnection] of Object.entries(peerConnections)) {
+        stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+    }
+}
+
+socket.on('new-user', (id) => {
+    if (!peerConnections[id]) {
+        const peerConnection = new RTCPeerConnection(configuration);
+        peerConnections[id] = peerConnection;
+
+        // 添加 ICE 候選者和軌道處理邏輯
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit('ice-candidate', { candidate: event.candidate, to: id });
+            }
+        };
+
+        peerConnection.ontrack = (event) => {
+            const remoteVideo = document.createElement('video');
+            remoteVideo.srcObject = event.streams[0];
+            remoteVideo.autoplay = true;
+            document.getElementById('remoteVideos').appendChild(remoteVideo);
+        };
+    }
+});
+
+// 當接收到 offer 時，回應 answer
+socket.on('offer', async ({ offer, from }) => {
+    const peerConnection = new RTCPeerConnection(configuration);
+    peerConnections[from] = peerConnection;
+
+    // 當接收到遠端流時，顯示到直播區域
+    peerConnection.ontrack = (event) => {
+        const remoteVideo = document.createElement('video');
+        remoteVideo.srcObject = event.streams[0];
+        remoteVideo.autoplay = true;
+        remoteVideo.controls = false;
+        document.getElementById('remoteVideos').appendChild(remoteVideo);
+    };
+
+    // 傳遞 ICE 候選者
+    peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+            socket.emit('ice-candidate', { candidate: event.candidate, to: from });
+        }
+    };
+
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+
+    socket.emit('answer', { answer: peerConnection.localDescription, to: from });
+});
+
+// 當接收到 answer 時，設置遠端描述
+socket.on('answer', ({ answer, from }) => {
+    peerConnections[from].setRemoteDescription(new RTCSessionDescription(answer));
+});
+
+// 當接收到 ICE 候選者時，添加到對應的 PeerConnection
+socket.on('ice-candidate', ({ candidate, from }) => {
+    peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
+});
+
+// 當有用戶離開時，移除對應的 WebRTC 連接
+socket.on('disconnect', (id) => {
+    if (peerConnections[id]) {
+        peerConnections[id].close();
+        delete peerConnections[id];
+    }
+
+    // 移除對應的遠端視頻
+    const remoteVideo = document.getElementById(id);
+    if (remoteVideo) remoteVideo.remove();
+});
+
+socket.on('connected', ({ id }) => {
+    console.log("Connected with ID:", id);
 });
