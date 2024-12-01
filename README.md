@@ -101,3 +101,16 @@ sudo systemctl restart nginx
 sudo nano /home/popcat/PopCatStream/app/static/js/live_stream.js
 ```
 live_stream的第一行:const socket = io.connect('https://<VM public IP>:8443');
+
+### 6. 啟動網頁
+
+啟動flask應用:
+```bash
+source venv/bin/activate
+python app.py
+```
+開啟另一個cmd並連上虛擬機後:
+```bash
+cd PopCatStream
+node server.js
+```

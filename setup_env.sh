@@ -50,6 +50,10 @@ sudo nginx -t  # 測試 Nginx
 sudo systemctl restart nginx  # 重啟 Nginx
 
 # 允許防火牆
-sudo ufw allow 80,443,8443/tcp 
+sudo ufw allow 80,443,8443/tcp
+
+# npm 配置
+sudo npm install express socket.io
+sudo npm install socket.io-client
 
 echo "部署完成！可以執行 'source venv/bin/activate && python app.py' 來啟動應用。"
