@@ -94,3 +94,7 @@ sudo nano /etc/nginx/sites-available/popcatstream
 sudo nginx -t
 sudo systemctl restart nginx
 ```
+
+### 5. 修改live_stream.js
+
+live_stream的第一行:const socket = io.connect('https://<VM public IP>:8443');
