@@ -29,7 +29,8 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
   users[socket.id] = socket;
 
-  socket.broadcast.emit('new-user', socket.id);
+  socket.broadcast.emit('user-new', socket.id);
+  console.log(`Broadcasting new user: ${socket.id}`);
 
   socket.on('message', (data) => {
     console.log(`Received message from ${data.username}: ${data.message}`);
