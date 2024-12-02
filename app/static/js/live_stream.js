@@ -3,8 +3,34 @@ const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
 // 用於生成唯一 id 的簡單函數
+// 用來生成唯一的 ID
 function generateUniqueId() {
-    return 'peer_' + Math.random().toString(36).substr(2, 9);
+    return 'peer_' + Math.random().toString(36).substr(2, 9);  // 隨機生成 ID，保證唯一性
+}
+
+function broadcastStream(stream) {
+    const liveVideo = document.getElementById('liveVideo');
+    liveVideo.srcObject = stream;
+
+    // 遍歷所有已經建立的連接
+    Object.values(peerConnections).forEach(async (peerConnection) => {
+        // 確保每個 peerConnection 都有唯一的 id
+        if (!peerConnection.id) {
+            peerConnection.id = generateUniqueId();  // 使用生成的唯一 ID，或是某種方式手動賦予 ID
+            console.log('Assigned ID to peerConnection:', peerConnection.id);
+        }
+
+        stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
+        try {
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            console.log('Sending offer to:', peerConnection.id);  // 確保 id 正確
+            socket.emit('offer', { offer, to: peerConnection.id });
+        } catch (error) {
+            console.error('Error creating offer:', error);
+        }
+    });
 }
 
 document.getElementById('shareScreenButton').addEventListener('click', async () => {
@@ -21,6 +47,12 @@ document.getElementById('shareScreenButton').addEventListener('click', async () 
                     peerConnection.addTrack(track, screenStream);
                 });
 
+                // 確保每個 peerConnection 都有唯一的 id
+                if (!peerConnection.id) {
+                    peerConnection.id = generateUniqueId();
+                    console.log('Assigned ID to peerConnection:', peerConnection.id);
+                }
+
                 // 創建 offer 並設置本地描述
                 const offer = await peerConnection.createOffer();
                 await peerConnection.setLocalDescription(offer);
@@ -36,61 +68,30 @@ document.getElementById('shareScreenButton').addEventListener('click', async () 
     }
 });
 
-
-document.getElementById('startCameraButton').addEventListener('click', async () => {
-    try {
-        const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        broadcastStream(cameraStream);
-    } catch (err) {
-        console.error("Error: " + err);
-    }
-});
-
-function broadcastStream(stream) {
-    const liveVideo = document.getElementById('liveVideo');
-    liveVideo.srcObject = stream;
-
-    // 遍歷所有已經建立的連接
-    Object.values(peerConnections).forEach(async (peerConnection) => {
-        stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
-
-        // 確保已經創建了 offer 並發送
-        try {
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-            console.log('Sending offer:', offer); // 確認是否發送
-            socket.emit('offer', { offer, to: peerConnection.id });
-        } catch (error) {
-            console.error('Error creating offer:', error);
-        }
-    });
-}
-
-
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
-
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
-        const peerId = generateUniqueId();  // 創建唯一的 id
-        peerConnection.id = peerId;  // 設定 id
-        peerConnections[peerId] = peerConnection;  // 儲存 peerConnection
+        peerConnection.id = id; // 確保每個 peerConnection 都有一個唯一的 ID
+        peerConnections[id] = peerConnection;
 
         peerConnection.onicecandidate = (event) => {
+            console.log("Sending ICE candidate to", id);
             if (event.candidate) {
-                socket.emit('ice-candidate', { candidate: event.candidate, to: peerId });
+                socket.emit('ice-candidate', { candidate: event.candidate, to: id });
             }
         };
 
         peerConnection.ontrack = (event) => {
+            console.log("Received track from user:", id);
             const remoteVideo = document.createElement('video');
             remoteVideo.srcObject = event.streams[0];
             remoteVideo.autoplay = true;
-            remoteVideo.controls = false;
+            remoteVideo.controls = false; // 設置 ID 以便顯示和移除
             document.body.appendChild(remoteVideo);
         };
 
-        // 傳送本地流
+        // 確保在新用戶連接時傳送本地流
         const localStream = liveVideo.srcObject;
         if (localStream) {
             localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
@@ -98,13 +99,11 @@ socket.on('user-new', (id) => {
     }
 });
 
-
-
 socket.on('offer', async ({ offer, from }) => {
+    console.log(`Received offer from ${from}:`, offer);  // 確認收到的 offer 是否包含來自的 ID
     const peerConnection = new RTCPeerConnection(configuration);
-    const peerId = generateUniqueId();  // 創建唯一的 id
-    peerConnection.id = peerId;  // 設定 id
-    peerConnections[peerId] = peerConnection;
+    peerConnection.id = from;  // 設定從哪個用戶來的 ID
+    peerConnections[from] = peerConnection;
 
     peerConnection.ontrack = (event) => {
         const remoteVideo = document.createElement('video');
@@ -127,26 +126,12 @@ socket.on('offer', async ({ offer, from }) => {
     socket.emit('answer', { answer: peerConnection.localDescription, to: from });
 });
 
-
 socket.on('answer', ({ answer, from }) => {
+    console.log(`Received answer from ${from}`);
     peerConnections[from].setRemoteDescription(new RTCSessionDescription(answer));
 });
 
 socket.on('ice-candidate', ({ candidate, from }) => {
     console.log(`Received ICE candidate from ${from}`);
     peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
-});
-
-socket.on('disconnect', (id) => {
-    if (peerConnections[id]) {
-        peerConnections[id].close();
-        delete peerConnections[id];
-    }
-
-    const remoteVideo = document.getElementById(id);
-    if (remoteVideo) remoteVideo.remove();
-});
-
-socket.on('connect', () => {
-    console.log('Connected to server. My socket ID:', socket.id);
 });
