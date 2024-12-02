@@ -83,13 +83,23 @@ socket.on('user-new', (id) => {
         };
 
         peerConnection.ontrack = (event) => {
-            console.log("Received track from user:", id);
-            const remoteVideo = document.createElement('video');
-            remoteVideo.srcObject = event.streams[0];
-            remoteVideo.autoplay = true;
-            remoteVideo.controls = false; // 設置 ID 以便顯示和移除
-            document.body.appendChild(remoteVideo);
-        };
+            console.log("Received track from remote peer");
+        
+            // 檢查是否有遠端流
+            if (event.streams && event.streams.length > 0) {
+                const remoteStream = event.streams[0];
+        
+                // 將遠端流顯示在 id 為 liveVideo 的 video 元素中
+                const liveVideo = document.getElementById('liveVideo');
+                if (liveVideo) {
+                    liveVideo.srcObject = remoteStream;  // 將遠端流賦值給 <video> 元素
+                } else {
+                    console.error('Error: Video element with id "liveVideo" not found.');
+                }
+            } else {
+                console.error("No remote stream received.");
+            }
+        };        
 
         // 確保在新用戶連接時傳送本地流
         const localStream = liveVideo.srcObject;
@@ -134,4 +144,28 @@ socket.on('answer', ({ answer, from }) => {
 socket.on('ice-candidate', ({ candidate, from }) => {
     console.log(`Received ICE candidate from ${from}`);
     peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    // 在 DOM 完全加載後執行的代碼
+    console.log("DOM fully loaded");
+
+    // 假設 peerConnection 已經建立
+    peerConnection.ontrack = (event) => {
+        console.log("Received track from remote peer");
+
+        if (event.streams && event.streams.length > 0) {
+            const remoteStream = event.streams[0];
+
+            // 找到 ID 為 liveVideo 的 video 元素
+            const liveVideo = document.getElementById('liveVideo');
+            if (liveVideo) {
+                liveVideo.srcObject = remoteStream;  // 將遠端流顯示在 video 元素中
+            } else {
+                console.error('Error: Video element with id "liveVideo" not found.');
+            }
+        } else {
+            console.error("No remote stream received.");
+        }
+    };
 });
