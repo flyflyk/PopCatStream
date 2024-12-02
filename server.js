@@ -37,12 +37,15 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
+
   socket.on('offer', ({ offer, to }) => {
-    console.log(`Forwarding offer from ${socket.id} to ${to}`);
+    console.log(`Received offer from ${socket.id} to ${to}:`, offer);  // 確認是否收到 offer
     if (users[to]) {
       users[to].emit('offer', { offer, from: socket.id });
+      console.log(`Forwarding offer from ${socket.id} to ${to}`);
     }
   });
+  
 
   socket.on('answer', ({ answer, to }) => {
     console.log(`Forwarding answer from ${socket.id} to ${to}`);
@@ -69,3 +72,8 @@ const PORT = 8444;
 server.listen(PORT, () => {
   console.log(`Server running on https://20.92.229.26:${PORT}`);  
 });
+
+
+
+
+
