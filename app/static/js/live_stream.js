@@ -46,10 +46,21 @@ function broadcastStream(stream) {
     liveVideo.srcObject = stream;
 
     // 遍歷所有已經建立的連接
-    Object.values(peerConnections).forEach(peerConnection => {
-        stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+    Object.values(peerConnections).forEach(async (peerConnection) => {
+        stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
+        // 確保已經創建了 offer 並發送
+        try {
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            console.log('Sending offer:', offer); // 確認是否發送
+            socket.emit('offer', { offer, to: peerConnection.id });
+        } catch (error) {
+            console.error('Error creating offer:', error);
+        }
     });
 }
+
 
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
