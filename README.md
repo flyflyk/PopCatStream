@@ -144,3 +144,12 @@ python app.py
 cd PopCatStream
 node server.js
 ```
+
+刪掉
+deactivate
+cd /home/popcat
+rm -rf PopCatStream
+git clone https://github.com/flyflyk/PopCatStream.git
+cd PopCatStream
+chmod +x setup_env.sh
+./setup_env.sh
