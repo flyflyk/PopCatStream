@@ -45,10 +45,14 @@
                 </div>
             </main>
         </div>
+
+        <!-- 顯示遠端視頻的容器 -->
+        <div id="remoteVideos" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-wrap: wrap;">
+            <!-- 這裡會動態添加遠端視頻 -->
+        </div>
+
         {% include 'chat.html' %}
     </div>
-
-
 
     <!-- 載入 JavaScript -->
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
