@@ -119,34 +119,39 @@ peerConnection.ontrack = (event) => {
 // 當有新用戶連接時，設置 peerConnection 並傳送本地流
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
+    
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
-        peerConnection.id = id;
+        peerConnection.id = id; // 設定唯一 ID
         peerConnections[id] = peerConnection;
 
+        // 當有 ICE candidate 時發送
         peerConnection.onicecandidate = (event) => {
-            console.log("Sending ICE candidate to", id);
             if (event.candidate) {
                 socket.emit('ice-candidate', { candidate: event.candidate, to: id });
             }
         };
 
+        // 當遠端流（track）到來時
         peerConnection.ontrack = (event) => {
-            console.log("Received track from remote peer");
+            console.log(`Received track from remote peer ${id}`);
+            
             if (event.streams && event.streams.length > 0) {
                 const remoteStream = event.streams[0];
-                // 顯示遠端視頻流
-                displayStream(remoteStream);  // 顯示在同一個 liveVideo 中
+                displayStream(remoteStream);  // 顯示遠端流在 liveVideo 元素中
+            } else {
+                console.error(`No remote stream received from peer ${id}.`);
             }
         };
 
-        // 傳送本地流到 peerConnection
+        // 傳送本地流
         const localStream = document.getElementById('liveVideo').srcObject;
         if (localStream) {
             localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
         }
     }
 });
+
 
 
 
@@ -194,11 +199,12 @@ socket.on('ice-candidate', ({ candidate, from }) => {
 function displayStream(stream) {
     const liveVideo = document.getElementById('liveVideo');
     if (liveVideo) {
-        liveVideo.srcObject = stream;  // 設置視頻流
+        liveVideo.srcObject = stream;
     } else {
         console.error('Error: Video element with id "liveVideo" not found.');
     }
 }
+
 
 // 開啟本地攝像頭流
 document.getElementById('startCameraButton').addEventListener('click', async () => {
