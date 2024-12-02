@@ -71,7 +71,7 @@ document.getElementById('shareScreenButton').addEventListener('click', async () 
 
 
 
-document.getElementById('shareCameraButton').addEventListener('click', async () => {
+document.getElementById('startCameraButton').addEventListener('click', async () => {
     try {
         // 獲取視訊鏡頭的流
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
