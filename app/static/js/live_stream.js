@@ -68,6 +68,50 @@ document.getElementById('shareScreenButton').addEventListener('click', async () 
     }
 });
 
+
+
+
+document.getElementById('shareCameraButton').addEventListener('click', async () => {
+    try {
+        // 獲取視訊鏡頭的流
+        const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        broadcastStream(cameraStream);
+
+        // 創建並發送 offer
+        Object.values(peerConnections).forEach(async (peerConnection) => {
+            try {
+                // 確保在發送 offer 之前，已經將視訊流添加到 peerConnection 中
+                cameraStream.getTracks().forEach((track) => {
+                    peerConnection.addTrack(track, cameraStream);
+                });
+
+                // 確保每個 peerConnection 都有唯一的 id
+                if (!peerConnection.id) {
+                    peerConnection.id = generateUniqueId();
+                    console.log('Assigned ID to peerConnection:', peerConnection.id);
+                }
+
+                // 創建 offer 並設置本地描述
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // 發送 offer 給新用戶
+                socket.emit('offer', { offer, to: peerConnection.id });
+            } catch (error) {
+                console.error("Error while creating offer:", error);
+            }
+        });
+    } catch (err) {
+        console.error("Error accessing camera:", err);
+    }
+});
+
+
+
+
+
+
+
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
     if (!peerConnections[id]) {
