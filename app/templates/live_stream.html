@@ -36,8 +36,12 @@
     <div style="display: flex;">
         <div style="margin-left: 100px; flex: 1;"> 
             <main style="padding: 50px;">
+                <!-- 移除 liveVideo 外層容器，直接放在 remoteVideos 中 -->
                 <div style="margin-top: 20px; text-align: left;">
-                    <video id="liveVideo" width="700" height="400" controls autoplay></video>
+                    <div id="remoteVideos" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-wrap: wrap;">
+                        <video id="liveVideo" width="700" height="400" controls autoplay></video>
+                        <!-- 這裡會動態添加遠端視頻 -->
+                    </div>
                 </div>
                 <div class="control-buttons">
                     <button id="shareScreenButton" class="oval-button">分享螢幕</button>
@@ -46,13 +50,9 @@
             </main>
         </div>
     
-        <!-- 顯示遠端視頻的容器 -->
-        <div id="remoteVideos" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-wrap: wrap;">
-            <!-- 這裡會動態添加遠端視頻 -->
-        </div>
-    
         {% include 'chat.html' %}
     </div>
+    
     
 
     <!-- 載入 JavaScript -->
