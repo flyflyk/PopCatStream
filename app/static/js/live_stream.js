@@ -4,12 +4,33 @@ const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
 
 document.getElementById('shareScreenButton').addEventListener('click', async () => {
     try {
+        // 獲取螢幕共享的流
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
         broadcastStream(screenStream);
+
+        // 創建並發送 offer
+        Object.values(peerConnections).forEach(async (peerConnection) => {
+            try {
+                // 確保在發送 offer 之前，已經將螢幕流添加到 peerConnection 中
+                screenStream.getTracks().forEach((track) => {
+                    peerConnection.addTrack(track, screenStream);
+                });
+
+                // 創建 offer 並設置本地描述
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // 發送 offer 給新用戶
+                socket.emit('offer', { offer, to: peerConnection.id });
+            } catch (error) {
+                console.error("Error while creating offer:", error);
+            }
+        });
     } catch (err) {
-        console.error("Error: " + err);
+        console.error("Error sharing screen:", err);
     }
 });
+
 
 document.getElementById('startCameraButton').addEventListener('click', async () => {
     try {
