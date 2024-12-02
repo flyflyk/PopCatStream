@@ -2,6 +2,11 @@ const socket = io.connect('https://20.92.229.26:8444');
 const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
+// 用於生成唯一 id 的簡單函數
+function generateUniqueId() {
+    return 'peer_' + Math.random().toString(36).substr(2, 9);
+}
+
 document.getElementById('shareScreenButton').addEventListener('click', async () => {
     try {
         // 獲取螢幕共享的流
@@ -64,27 +69,28 @@ function broadcastStream(stream) {
 
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
+
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
-        peerConnections[id] = peerConnection;
+        const peerId = generateUniqueId();  // 創建唯一的 id
+        peerConnection.id = peerId;  // 設定 id
+        peerConnections[peerId] = peerConnection;  // 儲存 peerConnection
 
         peerConnection.onicecandidate = (event) => {
-            console.log("Sending ICE candidate to", id);
             if (event.candidate) {
-                socket.emit('ice-candidate', { candidate: event.candidate, to: id });
+                socket.emit('ice-candidate', { candidate: event.candidate, to: peerId });
             }
         };
 
         peerConnection.ontrack = (event) => {
-            console.log("Received track from user:", id);
             const remoteVideo = document.createElement('video');
             remoteVideo.srcObject = event.streams[0];
             remoteVideo.autoplay = true;
-            remoteVideo.controls = false; // 設置 ID 以便顯示和移除
+            remoteVideo.controls = false;
             document.body.appendChild(remoteVideo);
         };
 
-        // 確保在新用戶連接時傳送本地流
+        // 傳送本地流
         const localStream = liveVideo.srcObject;
         if (localStream) {
             localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
@@ -93,9 +99,12 @@ socket.on('user-new', (id) => {
 });
 
 
+
 socket.on('offer', async ({ offer, from }) => {
     const peerConnection = new RTCPeerConnection(configuration);
-    peerConnections[from] = peerConnection;
+    const peerId = generateUniqueId();  // 創建唯一的 id
+    peerConnection.id = peerId;  // 設定 id
+    peerConnections[peerId] = peerConnection;
 
     peerConnection.ontrack = (event) => {
         const remoteVideo = document.createElement('video');
@@ -117,6 +126,7 @@ socket.on('offer', async ({ offer, from }) => {
 
     socket.emit('answer', { answer: peerConnection.localDescription, to: from });
 });
+
 
 socket.on('answer', ({ answer, from }) => {
     peerConnections[from].setRemoteDescription(new RTCSessionDescription(answer));
