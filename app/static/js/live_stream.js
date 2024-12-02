@@ -84,22 +84,39 @@ socket.on('user-new', (id) => {
 
         peerConnection.ontrack = (event) => {
             console.log("Received track from remote peer");
-
+        
             // 檢查是否有遠端流
             if (event.streams && event.streams.length > 0) {
                 const remoteStream = event.streams[0];
-
-                // 將遠端流顯示在 id 為 liveVideo 的 video 元素中
-                const liveVideo = document.getElementById('liveVideo');
-                if (liveVideo) {
-                    liveVideo.srcObject = remoteStream;  // 將遠端流賦值給 <video> 元素
+        
+                // 找到 id 為 remoteVideos 的容器
+                const remoteVideosContainer = document.getElementById('remoteVideos');
+                
+                // 確保 remoteVideos 容器存在
+                if (remoteVideosContainer) {
+                    // 創建新的 <video> 元素來顯示遠端視頻
+                    const remoteVideo = document.createElement('video');
+                    remoteVideo.srcObject = remoteStream;
+                    remoteVideo.autoplay = true;
+                    remoteVideo.controls = true;  // 可以根據需求設置自動播放和控制條
+                    
+                    // 設置與 liveVideo 相同的寬度和高度
+                    const liveVideo = document.getElementById('liveVideo');
+                    if (liveVideo) {
+                        remoteVideo.width = liveVideo.width; // 700px
+                        remoteVideo.height = liveVideo.height; // 400px
+                    }
+        
+                    // 將遠端視頻元素添加到容器中
+                    remoteVideosContainer.appendChild(remoteVideo);
                 } else {
-                    console.error('Error: Video element with id "liveVideo" not found.');
+                    console.error('Error: Element with id "remoteVideos" not found.');
                 }
             } else {
                 console.error("No remote stream received.");
             }
         };
+        
 
         // 確保在新用戶連接時傳送本地流
         const localStream = liveVideo.srcObject;
