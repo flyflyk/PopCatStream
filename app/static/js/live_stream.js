@@ -51,23 +51,26 @@ function broadcastStream(stream) {
     });
 }
 
-socket.on('new-user', (id) => {
+socket.on('user-new', (id) => {
+    console.log("New user connected:", id);
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
         peerConnections[id] = peerConnection;
 
         peerConnection.onicecandidate = (event) => {
+            console.log("Sending ICE candidate to", id);
             if (event.candidate) {
                 socket.emit('ice-candidate', { candidate: event.candidate, to: id });
             }
         };
 
         peerConnection.ontrack = (event) => {
+            console.log("Received track from user:", id);
             const remoteVideo = document.createElement('video');
             remoteVideo.srcObject = event.streams[0];
             remoteVideo.autoplay = true;
-            remoteVideo.id = id; // 設置 ID 以便顯示和移除
-            document.getElementById('remoteVideos').appendChild(remoteVideo);
+            remoteVideo.controls = false; // 設置 ID 以便顯示和移除
+            document.body.appendChild(remoteVideo);
         };
 
         // 確保在新用戶連接時傳送本地流
@@ -123,6 +126,6 @@ socket.on('disconnect', (id) => {
     if (remoteVideo) remoteVideo.remove();
 });
 
-socket.on('connected', ({ id }) => {
-    console.log("Connected with ID:", id);
+socket.on('connect', () => {
+    console.log('Connected to server. My socket ID:', socket.id);
 });
