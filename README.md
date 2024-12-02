@@ -144,6 +144,18 @@ python app.py
 cd PopCatStream
 node server.js
 ```
+加強
+sudo npm install pm2 -g
+cd PopCatStream
+pm2 start server.js --name my-server
+pm2 startup
+pm2 save
+
+pm2 restart my-server(重啟)
+pm2 stop my-server(停止)
+pm2 logs my-server(查看日誌)
+pm2 delete my-server(刪除)
+
 
 刪掉
 deactivate
