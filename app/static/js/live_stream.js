@@ -68,11 +68,60 @@ document.getElementById('shareScreenButton').addEventListener('click', async () 
     }
 });
 
+
+
+// 將視頻流設置到 "liveVideo" 元素
+function displayStream(stream) {
+    const liveVideo = document.getElementById('liveVideo');
+    if (liveVideo) {
+        liveVideo.srcObject = stream;  // 設置視頻流
+    } else {
+        console.error('Error: Video element with id "liveVideo" not found.');
+    }
+}
+
+// 開啟本地攝像頭流
+document.getElementById('startCameraButton').addEventListener('click', async () => {
+    try {
+        // 獲取本地攝像頭視頻流
+        const localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        displayStream(localStream);  // 顯示本地視頻流
+    } catch (err) {
+        console.error("Error accessing camera:", err);
+    }
+});
+
+// 開始螢幕共享流
+document.getElementById('shareScreenButton').addEventListener('click', async () => {
+    try {
+        // 獲取螢幕共享流
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        displayStream(screenStream);  // 顯示螢幕共享視頻流
+    } catch (err) {
+        console.error("Error sharing screen:", err);
+    }
+});
+
+// 當遠端發送流時，顯示遠端視頻流
+peerConnection.ontrack = (event) => {
+    console.log("Received track from remote peer");
+
+    if (event.streams && event.streams.length > 0) {
+        const remoteStream = event.streams[0];
+        
+        // 顯示遠端視頻流
+        displayStream(remoteStream);  // 顯示在同一個 liveVideo 中
+    } else {
+        console.error("No remote stream received.");
+    }
+};
+
+// 當有新用戶連接時，設置 peerConnection 並傳送本地流
 socket.on('user-new', (id) => {
     console.log("New user connected:", id);
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
-        peerConnection.id = id; // 確保每個 peerConnection 都有一個唯一的 ID
+        peerConnection.id = id;
         peerConnections[id] = peerConnection;
 
         peerConnection.onicecandidate = (event) => {
@@ -84,47 +133,23 @@ socket.on('user-new', (id) => {
 
         peerConnection.ontrack = (event) => {
             console.log("Received track from remote peer");
-        
-            // 檢查是否有遠端流
             if (event.streams && event.streams.length > 0) {
                 const remoteStream = event.streams[0];
-        
-                // 找到 id 為 remoteVideos 的容器
-                const remoteVideosContainer = document.getElementById('remoteVideos');
-                
-                // 確保 remoteVideos 容器存在
-                if (remoteVideosContainer) {
-                    // 創建新的 <video> 元素來顯示遠端視頻
-                    const remoteVideo = document.createElement('video');
-                    remoteVideo.srcObject = remoteStream;
-                    remoteVideo.autoplay = true;
-                    remoteVideo.controls = true;  // 可以根據需求設置自動播放和控制條
-                    
-                    // 設置與 liveVideo 相同的寬度和高度
-                    const liveVideo = document.getElementById('liveVideo');
-                    if (liveVideo) {
-                        remoteVideo.width = liveVideo.width; // 700px
-                        remoteVideo.height = liveVideo.height; // 400px
-                    }
-        
-                    // 將遠端視頻元素添加到容器中
-                    remoteVideosContainer.appendChild(remoteVideo);
-                } else {
-                    console.error('Error: Element with id "remoteVideos" not found.');
-                }
-            } else {
-                console.error("No remote stream received.");
+                // 顯示遠端視頻流
+                displayStream(remoteStream);  // 顯示在同一個 liveVideo 中
             }
-        };        
-        
+        };
 
-        // 確保在新用戶連接時傳送本地流
-        const localStream = liveVideo.srcObject;
+        // 傳送本地流到 peerConnection
+        const localStream = document.getElementById('liveVideo').srcObject;
         if (localStream) {
             localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
         }
     }
 });
+
+
+
 
 socket.on('offer', async ({ offer, from }) => {
     console.log(`Received offer from ${from}:`, offer);  // 確認收到的 offer 是否包含來自的 ID
@@ -162,4 +187,52 @@ socket.on('ice-candidate', ({ candidate, from }) => {
     console.log(`Received ICE candidate from ${from}`);
     peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
 });
+
+
+
+// 將視頻流設置到 "liveVideo" 元素
+function displayStream(stream) {
+    const liveVideo = document.getElementById('liveVideo');
+    if (liveVideo) {
+        liveVideo.srcObject = stream;  // 設置視頻流
+    } else {
+        console.error('Error: Video element with id "liveVideo" not found.');
+    }
+}
+
+// 開啟本地攝像頭流
+document.getElementById('startCameraButton').addEventListener('click', async () => {
+    try {
+        // 獲取本地攝像頭視頻流
+        const localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        displayStream(localStream);  // 顯示本地視頻流
+    } catch (err) {
+        console.error("Error accessing camera:", err);
+    }
+});
+
+// 開始螢幕共享流
+document.getElementById('shareScreenButton').addEventListener('click', async () => {
+    try {
+        // 獲取螢幕共享流
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        displayStream(screenStream);  // 顯示螢幕共享視頻流
+    } catch (err) {
+        console.error("Error sharing screen:", err);
+    }
+});
+
+// 當遠端發送流時，顯示遠端視頻流
+peerConnection.ontrack = (event) => {
+    console.log("Received track from remote peer");
+
+    if (event.streams && event.streams.length > 0) {
+        const remoteStream = event.streams[0];
+        
+        // 顯示遠端視頻流
+        displayStream(remoteStream);  // 顯示在同一個 liveVideo 中
+    } else {
+        console.error("No remote stream received.");
+    }
+};
 
