@@ -29,6 +29,6 @@ sudo systemctl restart nginx  # 重啟 Nginx
 sudo ufw allow 80,443,8443,8444/tcp
 
 # npm 配置
-sudo npm install express socket.io socket.io-client
+sudo npm install express socket.io socket.io-client pm2
 
 echo "部署完成！可以執行 'source venv/bin/activate && python app.py' 來啟動應用。"

@@ -125,12 +125,22 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-### 5. 修改live_stream.js
+### 5. 修改檔案內容
 
+live_stream.js的第一行: const IP = '<VM Public IP>';
 ```bash
 sudo nano /home/popcat/PopCatStream/app/static/js/live_stream.js
 ```
-live_stream的第一行:const socket = io.connect('https://<VM public IP>:8444');
+
+server.js第一行: const IP = '<VM Public IP>';
+```bash
+sudo nano /home/popcat/PopCatStream/server.js
+```
+
+app.py: CORS(app, origins="https://<VM Public IP>:8444")
+```bash
+sudo nano /home/popcat/PopCatStream/app.py
+```
 
 ### 6. 啟動網頁
 
@@ -145,7 +155,7 @@ cd PopCatStream
 node server.js
 ```
 加強
-sudo npm install pm2 -g
+```bash
 cd PopCatStream
 pm2 start server.js --name my-server
 pm2 startup
@@ -155,9 +165,10 @@ pm2 restart my-server(重啟)
 pm2 stop my-server(停止)
 pm2 logs my-server(查看日誌)
 pm2 delete my-server(刪除)
-
+```
 
 刪掉
+```bash
 deactivate
 cd /home/popcat
 rm -rf PopCatStream
@@ -165,3 +176,4 @@ git clone https://github.com/flyflyk/PopCatStream.git
 cd PopCatStream
 chmod +x setup_env.sh
 ./setup_env.sh
+```

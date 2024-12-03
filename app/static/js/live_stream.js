@@ -1,4 +1,5 @@
-const socket = io.connect('https://20.92.229.26:8444');
+const IP = '20.92.229.26';
+const socket = io.connect(`https://${IP}:8444`);
 const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 

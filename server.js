@@ -1,3 +1,4 @@
+const IP = '20.92.229.26';
 const express = require('express');
 const https = require('https');
 const { Server } = require('socket.io');
@@ -6,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 const corsOptions = {
-  origin: 'https://20.92.229.26:8443',
+  origin: `https://${IP}:8443`,
   methods: ['GET', 'POST'],
 };
 
@@ -19,7 +20,7 @@ const options = {
 const server = https.createServer(options, app);
 const io = new Server(server, {
     cors: {
-      origin: ['https://20.92.229.26:8443', 'https://20.92.229.26:8444'],
+      origin: [`https://${IP}:8443`, `https://${IP}:8444`],
       methods: ['GET', 'POST'],
     },
   });
@@ -39,7 +40,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('offer', ({ offer, to }) => {
-    console.log(`Received offer from ${socket.id} to ${to}:`, offer);  // 確認是否收到 offer
+    console.log(`Received offer from ${socket.id} to ${to}:`, offer); 
     if (users[to]) {
       users[to].emit('offer', { offer, from: socket.id });
       console.log(`Forwarding offer from ${socket.id} to ${to}`);
@@ -61,16 +62,16 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnection', () => {
     console.log(`User disconnected: ${socket.id}`);
     delete users[socket.id];
-    socket.broadcast.emit('disconnect', socket.id);
+    socket.broadcast.emit('disconnection', socket.id);
   });
 });
 
 const PORT = 8444;  
 server.listen(PORT, () => {
-  console.log(`Server running on https://20.92.229.26:${PORT}`);  
+  console.log(`Server running on https://${IP}:${PORT}`);  
 });
 
 
