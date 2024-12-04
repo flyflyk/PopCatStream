@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from flask_cors import CORS
 from app.routes.auth_routes import auth_bp
 from app.routes.stream_routes import stream_bp
