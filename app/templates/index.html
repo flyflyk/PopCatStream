@@ -5,31 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PopCatStream</title>
     <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/dropdown_menu.css">
     <link rel="stylesheet" href="/static/css/modal.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
 
     <!-- 標頭 -->
-    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px;">
-        <div style="flex: 1;">
-            <a href="/">
-                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
-            </a>
-        </div>
-        <h2 class="site-title">popcatstream</h2>
-        <div id="auth-buttons" style="flex: 1; text-align: right;">
-        </div>
-    </header>
+    {% include 'header.html' %}
     
     <!-- 下拉選單 -->
-    <div class="menu" onclick="toggleMenu()">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div id="menu-options">
-    </div>
+    {% include 'dropdown_menu.html' %}
 
     <!-- 主要內容 -->
     <main style="text-align: center; padding: 50px;">

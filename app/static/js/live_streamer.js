@@ -32,7 +32,9 @@ shareScreenButton.addEventListener('click', async () => {
     try {
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
         broadcastStream(screenStream);
-        stopStreamButton.disabled = false;
+        shareScreenButton.style.display = 'none';
+        startCameraButton.style.display = 'none';
+        stopStreamButton.style.display = 'inline-block';
     } catch (err) {
         console.error("Error sharing screen:", err);
     }
@@ -42,7 +44,9 @@ startCameraButton.addEventListener('click', async () => {
     try {
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         broadcastStream(cameraStream);
-        stopStreamButton.disabled = false;
+        shareScreenButton.style.display = 'none';
+        startCameraButton.style.display = 'none';
+        stopStreamButton.style.display = 'inline-block';
     } catch (err) {
         console.error("Error accessing camera:", err);
     }
@@ -53,7 +57,9 @@ stopStreamButton.addEventListener('click', () => {
     if (stream) {
         stream.getTracks().forEach((track) => track.stop());
         liveVideo.srcObject = null;
-        stopStreamButton.disabled = true;
+        shareScreenButton.style.display = 'inline-block';
+        startCameraButton.style.display = 'inline-block';
+        stopStreamButton.style.display = 'none';
     }
 });
 

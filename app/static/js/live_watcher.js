@@ -3,7 +3,7 @@ const socket = io.connect(`https://${IP}:8444`);
 const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
-const remoteVideoContainer = document.getElementById('remoteVideos');
+const remoteVideo = document.getElementById('remoteVideo');
 
 // Handle incoming offer from the broadcaster
 socket.on('offer', async ({ offer, from }) => {
@@ -19,15 +19,7 @@ socket.on('offer', async ({ offer, from }) => {
             const remoteStream = event.streams[0];
             if (remoteStream) {
                 console.log('Displaying remote stream from broadcaster');
-
-                // Create a video element for the remote stream
-                const remoteVideo = document.createElement('video');
                 remoteVideo.srcObject = remoteStream;
-                remoteVideo.autoplay = true;
-                remoteVideo.controls = true;
-                remoteVideo.style.width = '100%';
-                remoteVideo.style.maxHeight = '500px';
-                remoteVideoContainer.appendChild(remoteVideo);
             } else {
                 console.error('No remote stream received.');
             }
@@ -73,12 +65,4 @@ socket.on('user-disconnected', (id) => {
         peerConnection.close();
         delete peerConnections[id];
     }
-
-    // Remove associated video element
-    const remoteVideos = Array.from(remoteVideoContainer.children);
-    remoteVideos.forEach((video) => {
-        if (video.srcObject && video.srcObject.id === id) {
-            remoteVideoContainer.removeChild(video);
-        }
-    });
 });
