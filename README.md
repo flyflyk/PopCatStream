@@ -171,7 +171,7 @@ pm2 delete my-server(刪除)
 ```bash
 deactivate
 cd /home/popcat
-rm -rf PopCatStream
+sudo rm -rf PopCatStream
 git clone https://github.com/flyflyk/PopCatStream.git
 cd PopCatStream
 chmod +x setup_env.sh

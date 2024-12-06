@@ -39,14 +39,34 @@ io.on('connection', (socket) => {
   });
 
 
+
+
+
+
   socket.on('offer', ({ offer, to }) => {
     console.log(`Received offer from ${socket.id} to ${to}:`, offer); 
     if (users[to]) {
+      // 轉發offer給觀眾
       users[to].emit('offer', { offer, from: socket.id });
       console.log(`Forwarding offer from ${socket.id} to ${to}`);
     }
   });
+
+
+  socket.on('user-new', (id) => {
+    if (users[id]) {
+      // 每個新連接的用戶都會收到當前直播者的流
+      if (liveStreamOffer) {
+        users[id].emit('offer', liveStreamOffer);  // 發送流給新觀眾
+      }
+    }
+  });
   
+
+
+
+
+
 
   socket.on('answer', ({ answer, to }) => {
     console.log(`Forwarding answer from ${socket.id} to ${to}`);

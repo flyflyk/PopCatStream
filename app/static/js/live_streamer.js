@@ -40,13 +40,21 @@ shareScreenButton.addEventListener('click', async () => {
     }
 });
 
+
+
+
 startCameraButton.addEventListener('click', async () => {
     try {
+        // 開啟攝像頭，獲取視頻流
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         
+        // 顯示當前流
         liveVideo.srcObject = cameraStream;
-        
-        broadcastStream(cameraStream);
+
+        // 立即開始推送直播流
+        broadcastStream(cameraStream); // <---- 在這裡直接推送直播流
+
+        // 隱藏開始直播按鈕，顯示停止直播按鈕
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
         stopStreamButton.style.display = 'inline-block';
@@ -54,6 +62,13 @@ startCameraButton.addEventListener('click', async () => {
         console.error("Error accessing camera:", err);
     }
 });
+
+
+
+
+
+
+
 
 stopStreamButton.addEventListener('click', () => {
     const stream = liveVideo.srcObject;
