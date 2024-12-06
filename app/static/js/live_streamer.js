@@ -43,6 +43,9 @@ shareScreenButton.addEventListener('click', async () => {
 startCameraButton.addEventListener('click', async () => {
     try {
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        
+        liveVideo.srcObject = cameraStream;
+        
         broadcastStream(cameraStream);
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
