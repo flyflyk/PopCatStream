@@ -56,6 +56,13 @@ io.on('connection', (socket) => {
       liveStreamOffer = offer;
     }
 
+
+    if (to === null) {
+      // 如果to為null，表示這是直播者的流，保存起來
+      liveStreamOffer = offer;
+    }
+
+
     if (users[to]) {
       // 轉發offer給觀眾
       users[to].emit('offer', { offer, from: socket.id });
