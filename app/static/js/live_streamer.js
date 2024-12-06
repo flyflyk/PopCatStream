@@ -27,10 +27,6 @@ function broadcastStream(stream) {
         }
     });
 
-
-    socket.emit('offer', { offer: stream, to: null });
-
-
 }
 
 shareScreenButton.addEventListener('click', async () => {
