@@ -26,6 +26,10 @@ const io = new Server(server, {
   });
 const users = {};
 
+
+let liveStreamOffer = null; 
+
+
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
   users[socket.id] = socket;
@@ -38,13 +42,20 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
-
+  if (liveStreamOffer) {
+    socket.emit('offer', liveStreamOffer);
+  }
 
 
 
 
   socket.on('offer', ({ offer, to }) => {
     console.log(`Received offer from ${socket.id} to ${to}:`, offer); 
+   
+    if (!liveStreamOffer) {
+      liveStreamOffer = offer;
+    }
+
     if (users[to]) {
       // 轉發offer給觀眾
       users[to].emit('offer', { offer, from: socket.id });
