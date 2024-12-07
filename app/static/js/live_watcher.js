@@ -1,13 +1,8 @@
 const IP = '20.92.229.26';
 const socket = io.connect(`https://${IP}:8444`);
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-<<<<<<< HEAD
-
-const remoteVideo = document.getElementById('remoteVideo');
-=======
 const remoteVideoContainer = document.getElementById('remoteVideos');
 let peerConnections = {};
->>>>>>> ebe4aa8ddf0445da3cbe96a0f890dd858ebeb0d8
 
 // Handle incoming offer from the broadcaster
 socket.on('offer', async ({ offer, from }) => {
