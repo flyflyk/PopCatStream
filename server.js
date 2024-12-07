@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
    
     if (!liveStreamOffer) {
       liveStreamOffer = offer;
+      console.log('Setting liveStreamOffer:', liveStreamOffer);
     }
 
     if (users[to]) {
