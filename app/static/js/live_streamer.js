@@ -1,12 +1,12 @@
 const IP = '20.92.229.26';
 const socket = io.connect(`https://${IP}:8444`);
-const peerConnections = {};
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
 const liveVideo = document.getElementById('liveVideo');
 const shareScreenButton = document.getElementById('shareScreenButton');
 const startCameraButton = document.getElementById('startCameraButton');
 const stopStreamButton = document.getElementById('stopStreamButton');
+let peerConnections = {};
 
 function generateUniqueId() {
     return 'peer_' + Math.random().toString(36).substr(2, 9);
