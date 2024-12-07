@@ -157,6 +157,8 @@ node server.js
 加強
 ```bash
 cd PopCatStream
+pm2 stop all
+pm2 delete all
 pm2 start server.js --name my-server
 pm2 startup
 pm2 save
