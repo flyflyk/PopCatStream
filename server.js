@@ -46,10 +46,10 @@ io.on('connection', (socket) => {
   socket.on('offer', ({ offer, to }) => {
     console.log(`Received offer from ${socket.id} to ${to}:`, offer); 
    
-    if (!liveStreamOffer) {
+  /*  if (!liveStreamOffer) {
       liveStreamOffer = offer;
     }
-
+*/
     if (users[to]) {
       // 轉發offer給觀眾
       users[to].emit('offer', { offer, from: socket.id });
