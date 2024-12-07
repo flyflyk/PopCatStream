@@ -59,6 +59,22 @@ io.on('connection', (socket) => {
   });
 
 
+// 新觀眾加入時處理
+socket.on('user-new', (id) => {
+  if (users[id]) {
+    // 如果直播流已經存在，發送給新觀眾
+    if (liveStreamOffer) {
+      console.log('Sending liveStreamOffer to new user:', id);
+      users[id].emit('offer', { offer: liveStreamOffer, from: socket.id });
+    } else {
+      console.log('No liveStreamOffer available for new user:', id);
+    }
+  }
+});
+
+
+
+/*舊的
   socket.on('user-new', (id) => {
     if (users[id]) {
       // 每個新連接的用戶都會收到當前直播者的流
@@ -67,11 +83,8 @@ io.on('connection', (socket) => {
       }
     }
   });
+  */
   
-
-
-
-
 
 
   socket.on('answer', ({ answer, to }) => {

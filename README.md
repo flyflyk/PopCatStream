@@ -162,6 +162,9 @@ pm2 delete all
 pm2 start server.js --name my-server
 pm2 startup
 pm2 save
+pm2 logs my-server
+
+
 
 pm2 restart my-server(重啟)
 pm2 stop my-server(停止)
