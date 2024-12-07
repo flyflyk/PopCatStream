@@ -4,7 +4,6 @@ const https = require('https');
 const { Server } = require('socket.io');
 const fs = require('fs');
 const cors = require('cors');
-
 const app = express();
 const corsOptions = {
   origin: `https://${IP}:8443`,
@@ -27,7 +26,7 @@ const io = new Server(server, {
 const users = {};
 
 
-
+let liveStreamOffer = null;
 
 
 io.on('connection', (socket) => {

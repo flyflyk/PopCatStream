@@ -50,7 +50,8 @@ startCameraButton.addEventListener('click', async () => {
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         
         // 顯示當前流
-        liveVideo.srcObject = cameraStream;
+        
+       // liveVideo.srcObject = cameraStream;
 
         // 立即開始推送直播流
         broadcastStream(cameraStream); // <---- 在這裡直接推送直播流
