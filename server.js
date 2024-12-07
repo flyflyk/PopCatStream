@@ -27,7 +27,7 @@ const io = new Server(server, {
 const users = {};
 
 
-let liveStreamOffer = null; 
+
 
 
 io.on('connection', (socket) => {
@@ -42,12 +42,7 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
-  if (liveStreamOffer) {
-    socket.emit('offer', liveStreamOffer);
-  }
-
-
-
+  
 
   socket.on('offer', ({ offer, to }) => {
     console.log(`Received offer from ${socket.id} to ${to}:`, offer); 
@@ -55,13 +50,6 @@ io.on('connection', (socket) => {
     if (!liveStreamOffer) {
       liveStreamOffer = offer;
     }
-
-
-    if (to === null) {
-      // 如果to為null，表示這是直播者的流，保存起來
-      liveStreamOffer = offer;
-    }
-
 
     if (users[to]) {
       // 轉發offer給觀眾
