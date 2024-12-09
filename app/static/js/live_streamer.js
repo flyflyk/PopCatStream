@@ -7,7 +7,7 @@ const shareScreenButton = document.getElementById('shareScreenButton');
 const startCameraButton = document.getElementById('startCameraButton');
 const stopStreamButton = document.getElementById('stopStreamButton');
 let peerConnections = {};
-
+let peerId = null;
 function generateUniqueId() {
     return 'peer_' + Math.random().toString(36).substr(2, 9);
 }

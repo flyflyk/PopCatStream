@@ -187,3 +187,8 @@ chmod +x setup_env.sh
 
 
 npm install socket.io-redis
+
+安裝
+sudo apt update
+sudo apt install redis-server
+sudo systemctl start redis
