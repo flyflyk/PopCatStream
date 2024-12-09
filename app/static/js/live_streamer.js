@@ -1,34 +1,35 @@
-const IP = '20.92.229.26';
-const socket = io.connect(`https://${IP}:8444`);
+const IP = '20.92.229.26';  // 替換為你的伺服器 IP 地址
+const socket = io.connect(`https://${IP}:8444`); // 確保與伺服器建立連線
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
 const liveVideo = document.getElementById('liveVideo');
 const shareScreenButton = document.getElementById('shareScreenButton');
 const startCameraButton = document.getElementById('startCameraButton');
 const stopStreamButton = document.getElementById('stopStreamButton');
-let peerConnections = {};
-let peerId = null;
-function generateUniqueId() {
-    return 'peer_' + Math.random().toString(36).substr(2, 9);
-}
+let peerConnections = {}; // 用來保存每個 peer 的連接
 
-// Broadcast local stream to all connected peers
+// 開始推流的函式
 function broadcastStream(stream) {
-    liveVideo.srcObject = stream;
+    liveVideo.srcObject = stream;  // 顯示本地的流
 
     Object.values(peerConnections).forEach(async (peerConnection) => {
+        // 把本地流的所有 track 加入 peerConnection
         stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
+
         try {
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
+            const offer = await peerConnection.createOffer();  // 創建 offer
+            await peerConnection.setLocalDescription(offer);    // 設置本地描述
+
+            // 發送 offer 到伺服器
             socket.emit('offer', { offer, to: peerConnection.id });
+            console.log('Offer sent to server:', offer);
         } catch (error) {
             console.error('Error creating offer:', error);
         }
     });
-
 }
 
+// 開始錄影/共享螢幕
 shareScreenButton.addEventListener('click', async () => {
     try {
         const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
@@ -41,22 +42,12 @@ shareScreenButton.addEventListener('click', async () => {
     }
 });
 
-
-
-
+// 開啟攝像頭並開始直播
 startCameraButton.addEventListener('click', async () => {
     try {
-        // 開啟攝像頭，獲取視頻流
         const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        
-        // 顯示當前流
-        
-       // liveVideo.srcObject = cameraStream;
+        broadcastStream(cameraStream); // 直接推送流
 
-        // 立即開始推送直播流
-        broadcastStream(cameraStream); // <---- 在這裡直接推送直播流
-
-        // 隱藏開始直播按鈕，顯示停止直播按鈕
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
         stopStreamButton.style.display = 'inline-block';
@@ -65,13 +56,7 @@ startCameraButton.addEventListener('click', async () => {
     }
 });
 
-
-
-
-
-
-
-
+// 停止直播的函式
 stopStreamButton.addEventListener('click', () => {
     const stream = liveVideo.srcObject;
     if (stream) {
@@ -83,6 +68,7 @@ stopStreamButton.addEventListener('click', () => {
     }
 });
 
+// 處理新用戶連線
 socket.on('user-new', (id) => {
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
@@ -102,12 +88,14 @@ socket.on('user-new', (id) => {
     }
 });
 
+// 處理來自其他用戶的 answer
 socket.on('answer', ({ answer, from }) => {
     if (peerConnections[from]) {
         peerConnections[from].setRemoteDescription(new RTCSessionDescription(answer));
     }
 });
 
+// 處理來自其他用戶的 ice-candidate
 socket.on('ice-candidate', ({ candidate, from }) => {
     if (peerConnections[from]) {
         peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
