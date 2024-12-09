@@ -1,102 +1,71 @@
-const IP = '20.92.229.26'; // 伺服器 IP 地址
 const express = require('express');
-const https = require('https');
-const { Server } = require('socket.io');
-const fs = require('fs');
-const cors = require('cors');
+const http = require('http');
+const socketIo = require('socket.io');
+
+// 初始化 Express 伺服器
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-const corsOptions = {
-  origin: `https://${IP}:8443`, // 允許的 CORS 來源
-  methods: ['GET', 'POST'],
-};
+// 伺服器靜態檔案路徑
+app.use(express.static('public'));
 
-app.use(cors(corsOptions));
+// 用來儲存所有連接的用戶 ID 和相對應的流
+let connectedUsers = {};
 
-const options = {
-  key: fs.readFileSync('/home/popcat/PopCatStream/key.pem'), 
-  cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'), 
-};
-
-const server = https.createServer(options, app);
-const io = new Server(server, {
-    cors: {
-      origin: [`https://${IP}:8443`, `https://${IP}:8444`],
-      methods: ['GET', 'POST'],
-    },
-  });
-
-// 用來記錄已經連接的用戶
-const connectedUsers = {}; 
-
-// 用來儲存直播狀態
-let liveStreamOffer = null;
-
+// 當有新的用戶連接時
 io.on('connection', (socket) => {
-    const userId = socket.id;  // 使用 socket.id 作為用戶 ID
+    console.log(`User connected: ${socket.id}`);
 
-    // 檢查用戶是否已經連接過
-    if (connectedUsers[userId]) {
-        console.log(`Duplicate connection attempt from: ${userId}`);
-        socket.disconnect();  // 如果已經連接過，則斷開連接
-        return;
-    }
+    // 儲存新用戶連接
+    connectedUsers[socket.id] = socket;
 
-    // 記錄新的用戶連接
-    connectedUsers[userId] = true;
+    // 處理來自用戶的視訊流
+    socket.on('stream', (data) => {
+        console.log(`Received stream from: ${socket.id}`);
 
-    console.log(`User connected: ${userId}`);
-    socket.broadcast.emit('user-new', userId); // 通知其他人有新用戶進來
-    console.log(`Broadcasting new user: ${userId}`);
+        // 儲存流並轉發給其他用戶
+        socket.broadcast.emit('stream', { stream: data.stream, from: socket.id });
 
-    // 收到訊息
-    socket.on('message', (data) => {
-        console.log(`Received message from ${data.username}: ${data.message}`);
-        io.emit('message', data);  // 廣播訊息
+        // 如果需要儲存流或其他操作，這裡可以進行處理
     });
 
-    // 收到 offer，並轉發給目標用戶
-    socket.on('offer', ({ offer, to }) => {
-        console.log(`Received offer from ${userId} to ${to}:`, offer); 
-        
-        if (!liveStreamOffer) {
-            liveStreamOffer = offer;
-            console.log('Setting liveStreamOffer:', liveStreamOffer);
-        }
+    // 處理 ICE candidate
+    socket.on('ice-candidate', (data) => {
+        console.log('Received ICE candidate:', data);
 
-        if (connectedUsers[to]) {
-            // 如果目標用戶在線，轉發 offer
-            io.to(to).emit('offer', { offer, from: userId });
-            console.log(`Forwarding offer from ${userId} to ${to}`);
+        if (connectedUsers[data.to]) {
+            connectedUsers[data.to].emit('ice-candidate', { candidate: data.candidate, from: socket.id });
         }
     });
 
-    // 收到 answer，並轉發給目標用戶
-    socket.on('answer', ({ answer, to }) => {
-        console.log(`Forwarding answer from ${userId} to ${to}`);
-        if (connectedUsers[to]) {
-            io.to(to).emit('answer', { answer, from: userId });
+    // 處理 offer
+    socket.on('offer', (data) => {
+        console.log('Received offer:', data);
+
+        if (connectedUsers[data.to]) {
+            connectedUsers[data.to].emit('offer', { offer: data.offer, from: socket.id });
         }
     });
 
-    // 收到 ICE candidate，並轉發給目標用戶
-    socket.on('ice-candidate', ({ candidate, to }) => {
-        console.log(`Forwarding ICE candidate from ${userId} to ${to}`);
-        if (connectedUsers[to]) {
-            io.to(to).emit('ice-candidate', { candidate, from: userId });
+    // 處理 answer
+    socket.on('answer', (data) => {
+        console.log('Received answer:', data);
+
+        if (connectedUsers[data.to]) {
+            connectedUsers[data.to].emit('answer', { answer: data.answer, from: socket.id });
         }
     });
 
-    // 處理用戶斷開連接
+    // 用戶斷開連接時
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${userId}`);
-        delete connectedUsers[userId]; // 從已連接用戶列表中刪除
-        socket.broadcast.emit('disconnection', userId); // 通知其他用戶該用戶已斷開連接
+        console.log(`User disconnected: ${socket.id}`);
+        delete connectedUsers[socket.id]; // 清除已斷開的用戶
     });
 });
 
-// 伺服器監聽端口
-const PORT = 8444;  
-server.listen(PORT, () => {
-    console.log(`Server running on https://${IP}:${PORT}`);  
+// 啟動伺服器
+const port = 8444;
+server.listen(port, () => {
+    console.log(`Server running on https://localhost:${port}`);
 });
