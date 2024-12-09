@@ -182,3 +182,8 @@ cd PopCatStream
 chmod +x setup_env.sh
 ./setup_env.sh
 ```
+
+
+
+
+npm install socket.io-redis
