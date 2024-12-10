@@ -1,100 +1,96 @@
 const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+const https = require('https');
+const { Server } = require('socket.io');
+const fs = require('fs');
+const cors = require('cors');
 
-// 初始化 express 和 http 伺服器
+// 設定 IP 和端口
+const IP = '20.92.229.26';
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server); // 初始化 socket.io 伺服器
 
-// 設置靜態文件路徑（如 HTML、JS、CSS）
+// 設定 CORS 配置，允許來自指定域名的請求
+const corsOptions = {
+  origin: [`https://${IP}:8443`, `https://${IP}:8444`],
+  methods: ['GET', 'POST'],
+};
+app.use(cors(corsOptions));
+
+// 讀取 SSL 憑證
+const options = {
+  key: fs.readFileSync('/home/popcat/PopCatStream/key.pem'),  // 請使用正確的路徑
+  cert: fs.readFileSync('/home/popcat/PopCatStream/cert.pem'),  // 請使用正確的路徑
+};
+
+// 創建 HTTPS 伺服器
+const server = https.createServer(options, app);
+
+// 設置 socket.io 並配置 CORS
+const io = new Server(server, {
+  cors: {
+    origin: [`https://${IP}:8443`, `https://${IP}:8444`], // 設定允許的來源
+    methods: ['GET', 'POST'],
+  },
+});
+
+// 設定靜態檔案路徑
 app.use(express.static('public'));
 
-// 用來保存目前所有連線中的使用者 ID
-let users = {};
+// 儲存已連接的用戶列表
+let connectedUsers = {};
 
-// 當有新的連線進來時的處理邏輯
+// 當有用戶連接時
 io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
+  console.log(`User connected: ${socket.id}`);
 
-    // 當一個新用戶連線時，將用戶 ID 保存，並通知其他用戶
-    socket.on('join', () => {
-        users[socket.id] = socket;
-        console.log('Users connected:', Object.keys(users));
+  // 儲存用戶連接
+  connectedUsers[socket.id] = socket;
 
-        // 通知其他用戶有新用戶加入
-        socket.broadcast.emit('user-new', socket.id);
-    });
+  // 處理來自用戶的視訊流
+  socket.on('stream', (data) => {
+    console.log(`Received stream from: ${socket.id}`);
+    
+    // 如果有其他用戶連接，將流轉發給他們
+    socket.broadcast.emit('stream', { stream: data.stream, from: socket.id });
 
-    // 處理來自直播者的 offer 訊息
-    socket.on('offer', (data) => {
-        console.log(`Received offer from ${socket.id}:`, data.offer);
+    // 可以在此處進行其他處理，比如儲存流等
+  });
 
-        // 向指定的接收者（觀眾）發送 offer
-        if (data.to) {
-            const peerSocket = users[data.to];
-            if (peerSocket) {
-                peerSocket.emit('offer', {
-                    offer: data.offer,
-                    from: socket.id
-                });
-                console.log(`Sent offer to ${data.to}`);
-            }
-        }
-        // 如果沒有指定接收者，則將 offer 傳給所有連線中的觀眾
-        else {
-            for (const id in users) {
-                if (id !== socket.id) {
-                    users[id].emit('offer', {
-                        offer: data.offer,
-                        from: socket.id
-                    });
-                    console.log(`Sent offer to ${id}`);
-                }
-            }
-        }
-    });
+  // 處理 ICE candidate
+  socket.on('ice-candidate', (data) => {
+    console.log('Received ICE candidate:', data);
 
-    // 處理來自觀眾的 answer 訊息
-    socket.on('answer', (data) => {
-        console.log(`Received answer from ${socket.id}:`, data.answer);
+    if (connectedUsers[data.to]) {
+      connectedUsers[data.to].emit('ice-candidate', { candidate: data.candidate, from: socket.id });
+    }
+  });
 
-        const peerSocket = users[data.to];
-        if (peerSocket) {
-            peerSocket.emit('answer', {
-                answer: data.answer,
-                from: socket.id
-            });
-            console.log(`Sent answer to ${data.to}`);
-        }
-    });
+  // 處理 offer
+  socket.on('offer', (data) => {
+    console.log('Received offer:', data);
 
-    // 處理 ICE candidate 訊息
-    socket.on('ice-candidate', (data) => {
-        console.log(`Received ICE candidate from ${socket.id}:`, data.candidate);
+    if (connectedUsers[data.to]) {
+      connectedUsers[data.to].emit('offer', { offer: data.offer, from: socket.id });
+    }
+  });
 
-        const peerSocket = users[data.to];
-        if (peerSocket) {
-            peerSocket.emit('ice-candidate', {
-                candidate: data.candidate,
-                from: socket.id
-            });
-            console.log(`Sent ICE candidate to ${data.to}`);
-        }
-    });
+  // 處理 answer
+  socket.on('answer', (data) => {
+    console.log('Received answer:', data);
 
-    // 當用戶斷開連線時
-    socket.on('disconnect', () => {
-        console.log('User disconnected:', socket.id);
-        delete users[socket.id];
+    if (connectedUsers[data.to]) {
+      connectedUsers[data.to].emit('answer', { answer: data.answer, from: socket.id });
+    }
+  });
 
-        // 通知其他用戶該用戶已經離開
-        socket.broadcast.emit('user-disconnected', socket.id);
-    });
+  // 用戶斷開連接時
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+    delete connectedUsers[socket.id]; // 清除已斷開的用戶
+  });
 });
 
 // 啟動伺服器
-const port = process.env.PORT || 8444;
+const port = 8443;  // 設定伺服器的端口，8443 是 HTTPS 常用端口
 server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+  console.log(`Server running on https://${IP}:${port}`);
 });
