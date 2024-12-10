@@ -1,0 +1,120 @@
+/* 中心對齊內容 */
+body {
+    background-color: #333;
+    color: #b81ff0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: flex-start; /* 將內容靠左對齊 */
+    align-items: center; /* 垂直居中對齊 */
+    height: 100vh;
+}
+.profile-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px; /* 添加右邊距 */
+}
+.profile-image {
+    width: 400px; /* 設定寬度 */
+    height: 400px; /* 設定高度 */
+    border-radius: 50%; /* 圓形圖案 */
+    object-fit: cover; /* 確保圖案覆蓋整個框 */
+}
+.content-wrapper {
+    display: flex;
+    justify-content: center; /* 將內容靠左對齊 */
+    align-items: flex-start; /* 將內容頂部對齊 */
+    width: 40%; /* 框框的寬度 */
+    padding: 30px; /* 框框的內邊距 */
+    box-sizing: border-box; /* 包括padding在內計算寬度和高度 */
+    margin-left: 0; /* 取消左邊距，使框框位於最左邊 */
+    flex-direction: column; /* 垂直排列 */
+}
+.content {
+    text-align: left; /* 將文字靠左對齊 */
+    max-width: 100%; /* 確保內容區域佔據整個框框寬度 */
+    font-size: 16px; /* 設置所有文字的字體大小 */
+}
+.content p, .content ul li {
+    color: #ff00ee; /* 子體文字顏色 */
+    font-size: 16px; /* 統一字體大小 */
+}
+.back-button {
+    padding: 10px 20px;
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute; /* 使按鈕絕對定位 */
+    bottom: 20px; /* 距離底部20px */
+    left: 20px; /* 距離左側20px */
+}
+.back-button:hover {
+    background-color: #FFA500;
+}
+.settings-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex; /* 使用flexbox布局 */
+    align-items: center; /* 垂直居中對齊 */
+    margin-left: 10px;
+}
+.settings-button img.pencil-icon {
+    width: 16px; /* 調整鉛筆圖標的寬度 */
+    height: 16px; /* 調整鉛筆圖標的高度 */
+}
+.settings-form {
+    display: none;
+    margin-top: 20px;
+}
+.settings-form input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px; /* 統一字體大小 */
+}
+.oval-box {
+    background-color: #808080; /* 灰色背景 */
+    border-radius: 25px; /* 圓角 */
+    padding: 10px 20px; /* 內邊距 */
+    display: inline-flex; /* 將元素設置為內聯彈性盒，確保每個框不佔據整行 */
+    align-items: center; /* 垂直居中對齊內容 */
+    color: #FFD700; /* 字體顏色 */
+    margin-bottom: 10px; /* 增加下方外邊距 */
+}
+.password-container {
+    display: flex;
+    align-items: center;
+}
+
+/* 新的容器框框，將密碼、名稱、粉絲、追蹤者框框包住 */
+.combined-wrapper {
+    border: 2px solid #FFD700; /* 添加金色邊框 */
+    padding: 20px; /* 內邊距，確保內容不會靠近邊框 */
+    width: 100%; /* 寬度設定為 100% */
+    box-sizing: border-box; /* 確保內邊距包含在寬度內 */
+    display: flex;
+    flex-direction: row; /* 使用 row 讓內容並排 */
+    justify-content: space-between; /* 使左右兩側內容有間隔 */
+    gap: 20px; /* 兩個區塊間的間隔 */
+}
+
+/* 保持原本的設計不變 */
+.user-settings, .lists-wrapper {
+    flex: 1; /* 使兩個區塊佔據父容器相等的空間 */
+    color: #f700ff !important;
+    background-color: #e8e99c;
+    padding-top: 20px;
+    border: 2px solid #FFD700; /* 金色邊框 */
+}
+
+/* 保持粉絲和追蹤者區塊的原來設計 */
+.lists-wrapper {
+    color: #f700ff !important;
+    background-color: #e8e99c;
+}
