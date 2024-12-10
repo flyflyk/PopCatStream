@@ -19,7 +19,14 @@ function broadcastStream(stream) {
     Object.values(peerConnections).forEach(async (peerConnection) => {
         stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
         try {
-            const offer = await peerConnection.createOffer();
+            const offer = await peerConnection.createOffer({
+                offerToReceiveAudio: 1, // 允許接收音訊
+                offerToReceiveVideo: 1  // 允許接收視頻
+            });
+            
+            offer.sdp = offer.sdp.replace(/m=video 9 UDP/TLS/RTP/SAVPF ,96, 97, 98, 99/g, 'm=video 9 UDP/TLS/RTP/SAVPF 100 101 102 103');
+            
+
             await peerConnection.setLocalDescription(offer);
             socket.emit('offer', { offer, to: peerConnection.id });
         } catch (error) {
@@ -30,7 +37,13 @@ function broadcastStream(stream) {
 
 shareScreenButton.addEventListener('click', async () => {
     try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true ,audio: true});
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ 
+            video: {
+                cursor: "motion", // 顯示滑鼠
+                width: { ideal: 1920 },  // 設置理想的解析度
+                height: { ideal: 1080 }, // 設置理想的解析度
+                frameRate: { ideal: 30 }, // 設置理想的幀率
+            },audio: true});
         broadcastStream(screenStream);
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
@@ -42,7 +55,12 @@ shareScreenButton.addEventListener('click', async () => {
 
 startCameraButton.addEventListener('click', async () => {
     try {
-        const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const cameraStream = await navigator.mediaDevices.getUserMedia({ video: {
+            cursor: "motion", // 顯示滑鼠
+            width: { ideal: 1920 },  // 設置理想的解析度
+            height: { ideal: 1080 }, // 設置理想的解析度
+            frameRate: { ideal: 30 }, // 設置理想的幀率
+        },audio: true });
         broadcastStream(cameraStream);
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
