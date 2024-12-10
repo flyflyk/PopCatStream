@@ -21,48 +21,7 @@ function toggleMenu() {
     }
 }
 
-// 取得所有當前的直播間
-function fetchLiveRooms() {
-    fetch('https://20.92.229.26:8444/live-rooms')
-        .then(response => response.json())
-        .then(data => {
-            const liveRoomsContainer = document.getElementById('live-rooms');
-            liveRoomsContainer.innerHTML = ''; // 清空現有的直播間列表
-            if (data.length === 0) {
-                liveRoomsContainer.innerHTML = '<p>No live rooms available</p>';
-            } else {
-                data.forEach(room => {
-                    const roomElement = document.createElement('div');
-                    roomElement.classList.add('live-room');
-                    roomElement.innerHTML = `
-                        <h3>${room.name}</h3>
-                        <button onclick="joinLive('${room.name}')">Join</button>
-                    `;
-                    liveRoomsContainer.appendChild(roomElement);
-                });
-            }
-        })
-        .catch(err => {
-            console.error('Error fetching live rooms:', err);
-        });
-}
-
-// 加入指定的直播間
-function joinLive(roomName) {
-    if (!isLoggedIn()) {
-        alert('Please log in to join a live room.');
-        return;
-    }
-
-    const username = localStorage.getItem('username');
-    const socket = io('https://20.92.229.26:8444');
-
-    // 加入直播間
-    socket.emit('join-live', roomName);
-    alert(`Joined live room: ${roomName}`);
-}
-
-window.onload = function () {
+window.onload = function() {
     const authButtons = document.getElementById('auth-buttons');
     const menuOptions = document.getElementById('menu-options');
     const username = localStorage.getItem('username') || '匿名用戶';
@@ -85,6 +44,7 @@ window.onload = function () {
                 <button onclick="window.location.href='/channels'">頻道分類</button>
             </div>
         `;
+
     } else {
         authButtons.innerHTML = `
             <button class="login-button" onclick="openLoginModal()">Log in</button>
@@ -96,13 +56,10 @@ window.onload = function () {
             </div>
         `;
     }
-
-    // 顯示所有當前的直播間
-    fetchLiveRooms();
 };
 
 // 點擊頁面其他地方時，關閉下拉選單
-window.onclick = function (event) {
+window.onclick = function(event) {
     if (!event.target.matches('img')) {
         const dropdowns = document.getElementsByClassName('dropdown-content');
         for (let i = 0; i < dropdowns.length; i++) {
@@ -112,8 +69,4 @@ window.onclick = function (event) {
             }
         }
     }
-};
-
-
-
-
+}
