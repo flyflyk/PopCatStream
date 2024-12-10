@@ -30,7 +30,7 @@ function broadcastStream(stream) {
 
 shareScreenButton.addEventListener('click', async () => {
     try {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true ,audio: true});
         broadcastStream(screenStream);
         shareScreenButton.style.display = 'none';
         startCameraButton.style.display = 'none';
