@@ -181,6 +181,10 @@ git clone https://github.com/flyflyk/PopCatStream.git
 cd PopCatStream
 chmod +x setup_env.sh
 ./setup_env.sh
+sudo apt update
+sudo apt install redis-server
+sudo systemctl start redis
+
 ```
 
 

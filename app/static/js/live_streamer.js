@@ -9,17 +9,23 @@ const stopStreamButton = document.getElementById('stopStreamButton');
 let peerConnections = {}; // 用來保存每個 peer 的連接
 
 // 開始推流的函式
-function broadcastStream(stream) {
+async function broadcastStream(stream) {
     liveVideo.srcObject = stream;  // 顯示本地的流
+    
+    // 確認 peerConnections 是否有值
+    console.log('Current peerConnections:', peerConnections);
 
     // 如果有其他連接者，就向每個 peer 發送 offer
     if (Object.keys(peerConnections).length > 0) {
         Object.values(peerConnections).forEach(async (peerConnection) => {
+            console.log('Adding tracks to peerConnection:', peerConnection.id); // 調試輸出
+
             // 把本地流的所有 track 加入 peerConnection
             stream.getTracks().forEach((track) => peerConnection.addTrack(track, stream));
 
             try {
                 const offer = await peerConnection.createOffer();  // 創建 offer
+                console.log('Created offer:', offer);  // 顯示創建的 offer
                 await peerConnection.setLocalDescription(offer);    // 設置本地描述
 
                 // 發送 offer 到伺服器
@@ -31,12 +37,23 @@ function broadcastStream(stream) {
         });
     } else {
         // 即使沒有觀眾，也持續將流推送給伺服器
-        console.log('No peers connected, broadcasting stream anyway...');
-        
-        // 在這裡你可以選擇推送視頻流到伺服器，這樣當有觀眾加入時就可以即時接收到流
-        // 比如，你可以將視頻流發送到伺服器保存，或者其他處理邏輯
-        socket.emit('stream', { stream: stream }); // 發送到伺服器，這裡是發送流的範例，伺服器可以接收並保存流
+        console.log('No peers connected, broadcasting offer to server...');
+        const offer = await createOfferForServer();  // 創建並發送 offer 即使沒有觀眾
+
+        socket.emit('offer', { offer, to: null });  // `to: null` 表示沒有目標 peer
+        console.log('Offer sent to server, no peers connected.');
     }
+}
+
+// 用於創建並返回給伺服器的 offer
+async function createOfferForServer() {
+    const peerConnection = new RTCPeerConnection();  // 初始化一個新的 peer connection
+    // 這裡如果你有更多的需求，可以把 stream 加到 peerConnection
+
+    // 創建並返回 offer
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);  // 設置本地描述
+    return offer;
 }
 
 // 開始錄影/共享螢幕
