@@ -79,7 +79,7 @@ stopStreamButton.addEventListener('click', () => {
     }
 });
 
-socket.on('user-new', (id) => {
+socket.on('user-new', async (id) => {
     if (!peerConnections[id]) {
         const peerConnection = new RTCPeerConnection(configuration);
         peerConnection.id = id;
@@ -91,9 +91,27 @@ socket.on('user-new', (id) => {
             }
         };
 
+        peerConnection.onconnectionstatechange = () => {
+            if (peerConnection.connectionState === 'disconnected') {
+                delete peerConnections[id];
+            }
+        };
+
+        // Add existing tracks to the new peer connection
         const localStream = liveVideo.srcObject;
         if (localStream) {
             localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
+        }
+
+        try {
+            // Create an Offer for the new user
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+
+            // Send the Offer to the new user
+            socket.emit('offer', { offer: peerConnection.localDescription, to: id });
+        } catch (error) {
+            console.error('Error creating offer:', error);
         }
     }
 });
@@ -107,5 +125,15 @@ socket.on('answer', ({ answer, from }) => {
 socket.on('ice-candidate', ({ candidate, from }) => {
     if (peerConnections[from]) {
         peerConnections[from].addIceCandidate(new RTCIceCandidate(candidate));
+    }
+});
+
+socket.on('user-disconnected', (id) => {
+    console.log(`Broadcaster ${id} disconnected`);
+    
+    const peerConnection = peerConnections[id];
+    if (peerConnection) {
+        peerConnection.close();
+        delete peerConnections[id];
     }
 });
