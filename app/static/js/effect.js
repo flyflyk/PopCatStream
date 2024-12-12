@@ -1,60 +1,23 @@
-import { Fireworks } from '/node_modules/fireworks-js/dist/index'
+const fireworksContainer = document.getElementById('fireworks-container');
 
-const fireworks = new Fireworks('#fireworks-container', {
-    autoresize: true,
-    opacity: 0.5,
-    acceleration: 1.05,
-    friction: 0.97,
-    gravity: 1.5,
-    particles: 50,
-    traceLength: 3,
-    traceSpeed: 10,
-    explosion: 5,
-    intensity: 30,
-    flickering: 50,
-    lineStyle: 'round',
-    hue: {
-      min: 0,
-      max: 360
-    },
-    delay: {
-      min: 30,
-      max: 60
-    },
-    rocketsPoint: {
-      min: 50,
-      max: 50
-    },
-    lineWidth: {
-      explosion: {
-        min: 1,
-        max: 3
-      },
-      trace: {
-        min: 1,
-        max: 2
-      }
-    },
-    brightness: {
-      min: 50,
-      max: 80
-    },
-    decay: {
-      min: 0.015,
-      max: 0.03
-    },
-    mouse: {
-      click: false,
-      move: false,
-      max: 1
-    }
-  })
+// 初始化煙火效果
+const fireworks = new Fireworks(fireworksContainer, {
+    // 配置選項
+    speed: 3, // 粒子速度
+    particles: 100, // 顯示的煙火粒子數量
+    explosion: 5, // 爆炸程度
+    brightness: 100, // 煙火亮度
+    color: ['#ff0044', '#fffb00', '#00bfff', '#00ff00'], // 煙火顏色
+    trace: 3, // 輸出痕跡
+    delay: 30, // 延遲時間
+});
 
+// 顯示煙火效果
 function showFireworksEffect() {
     fireworks.start();
     setTimeout(() => {
         fireworks.stop();
-    }, 3000);
+    }, 3000); // 3秒後停止
 }
 
 // 當用戶選擇煙火禮物時觸發
