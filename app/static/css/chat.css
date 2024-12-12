@@ -1,8 +1,8 @@
 /* Chat styles */
 .chat-container {
-    width: 300px;
+    width: 400px;
     background-color: #222;
-    padding: 20px;
+    padding: 0px;
     color: #FFD700;
 }
 
