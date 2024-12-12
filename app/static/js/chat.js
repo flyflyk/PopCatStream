@@ -3,16 +3,18 @@ const chatBox = document.getElementById('chat-box');
 const giftButton = document.getElementById('gift-button');
 const giftModal = document.getElementById('gift-modal');
 const closeGiftModal = document.getElementById('close-gift-modal');
+const sendGiftButton = document.getElementById('send-gift-button');
+let selectedGift = null;
 
 let username = localStorage.getItem('username') || '匿名用戶';
 
-socket.on('message', function(data) {
-    if (username != data.username) {  
+socket.on('message', function (data) {
+    if (username != data.username) {
         const messageElement = document.createElement('div');
         messageElement.textContent = `${data.username}: ${data.message}`;
         messageElement.style.color = '#4B0082';
         chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;  // 滾動到最新的訊息
+        chatBox.scrollTop = chatBox.scrollHeight; // 滾動到最新的訊息
     }
 });
 
@@ -24,35 +26,44 @@ socket.on('receive-gift', (giftData) => {
     chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-// 監聽 Enter 鍵事件
-chatInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        sendMessage(); 
-    }
-});
-
+// 顯示模態框
 giftButton.addEventListener('click', () => {
     giftModal.style.display = 'flex';
+    selectedGift = null; // 重置選擇
 });
 
+// 隱藏模態框
 closeGiftModal.addEventListener('click', () => {
     giftModal.style.display = 'none';
 });
 
+// 選擇禮物
 document.querySelectorAll('.gift-button').forEach((button) => {
     button.addEventListener('click', () => {
-        const giftType = button.getAttribute('data-gift');
-        const giftData = { username: username, gift: giftType };
+        selectedGift = button.getAttribute('data-gift');
+        document.querySelectorAll('.gift-button').forEach((btn) => {
+            btn.classList.remove('selected'); // 清除選擇樣式
+        });
+        button.classList.add('selected'); // 添加選擇樣式
+    });
+});
+
+// 發送禮物
+sendGiftButton.addEventListener('click', () => {
+    if (selectedGift) {
+        const giftData = { username: username, gift: selectedGift };
 
         // 通知伺服器送禮物事件
         socket.emit('send-gift', giftData);
 
         // 隱藏模態框
         giftModal.style.display = 'none';
-    });
+    } else {
+        alert('請先選擇一個禮物');
+    }
 });
 
-window.onload = async function() {
+window.onload = async function () {
     try {
         const response = await fetch('/get_username');
         if (response.ok) {

@@ -89,11 +89,21 @@
     color: #000;
 }
 
+.gift-button.selected {
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+}
+
+.send-gift-button,
 .close-modal-button {
     margin-top: 20px;
     background-color: #ccc;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    border-radius: 5px;
+}
+
+.send-gift-button {
+    background-color: #FFD700;
+    color: #4B0082;
 }
