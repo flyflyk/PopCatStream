@@ -1,7 +1,7 @@
 const fireworksContainer = document.getElementById('fireworks-container');
 
 // 初始化煙火效果
-const fireworks = new Fireworks(fireworksContainer, {
+const fireworks = new fireworks(fireworksContainer, {
     // 配置選項
     speed: 3, // 粒子速度
     particles: 100, // 顯示的煙火粒子數量
