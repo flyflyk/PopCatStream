@@ -30,11 +30,21 @@ socket.on('receive-gift', (giftData) => {
 giftButton.addEventListener('click', () => {
     giftModal.style.display = 'flex';
     selectedGift = null; // 重置選擇
+
+    // 清除選擇樣式
+    document.querySelectorAll('.gift-option').forEach((btn) => {
+        btn.classList.remove('selected'); 
+    });
 });
 
 // 隱藏模態框
 closeGiftModal.addEventListener('click', () => {
     giftModal.style.display = 'none';
+    
+    // 清除選擇樣式
+    document.querySelectorAll('.gift-option').forEach((btn) => {
+        btn.classList.remove('selected'); 
+    });
 });
 
 // 選擇禮物
@@ -58,6 +68,11 @@ sendGiftButton.addEventListener('click', () => {
 
         // 隱藏模態框
         giftModal.style.display = 'none';
+
+        // 清除選擇樣式
+        document.querySelectorAll('.gift-option').forEach((btn) => {
+            btn.classList.remove('selected'); 
+        });
     } else {
         alert('請先選擇一個禮物');
     }
