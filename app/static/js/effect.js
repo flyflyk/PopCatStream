@@ -1,49 +1,136 @@
-// 顯示特效的函式
+function initFireworksEffect() {
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 0, // 零表示不顯示，根據需要顯示煙火時再調整
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#FFD700" // 黃金色
+            },
+            shape: {
+                type: "circle", // 煙火粒子為圓形
+            },
+            opacity: {
+                value: 1,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0
+                }
+            },
+            size: {
+                value: 5,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 10,
+                    size_min: 1
+                }
+            },
+            line_linked: {
+                enable: false // 關閉粒子之間的連接
+            },
+            move: {
+                enable: true,
+                speed: 10,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "grab"
+                },
+                onclick: {
+                    enable: true,
+                    mode: "push" // 點擊時推送更多粒子
+                }
+            }
+        }
+    });
+}
+
+// 顯示煙火特效
 function showFireworksEffect() {
-    const effectContainer = document.getElementById('effect-container');
-    const fireworks = document.createElement('div');
-    fireworks.classList.add('fireworks');
-    fireworks.textContent = '🎆';  // 這裡可以替換成任何您喜歡的煙火符號
-    effectContainer.appendChild(fireworks);
+    // 激活煙火動畫
+    initFireworksEffect();
 
-    // 煙火顯示 2 秒後自動消失
+    // 設置粒子的數量和顏色，使它們看起來像煙火
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 100, // 顯示100個煙火粒子
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#FFD700" // 黃金色
+            },
+            shape: {
+                type: "circle",
+            },
+            opacity: {
+                value: 1,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0
+                }
+            },
+            size: {
+                value: 8,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 10,
+                    size_min: 1
+                }
+            },
+            line_linked: {
+                enable: false
+            },
+            move: {
+                enable: true,
+                speed: 15,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false
+            }
+        }
+    });
+
+    // 給予一段時間後清除特效
     setTimeout(() => {
-        fireworks.remove();
-    }, 2000);
+        document.getElementById('particles-js').innerHTML = ''; // 清除煙火特效
+    }, 3000); // 3秒後清除
 }
 
-// 顯示全螢幕煙火
-function showFullscreenFireworks() {
-    const fullscreenContainer = document.createElement('div');
-    fullscreenContainer.id = 'fullscreen-fireworks';
-    const fireworks = document.createElement('div');
-    fireworks.classList.add('fireworks-fullscreen');
-    fireworks.textContent = '🎆';  // 可以替換成其他煙火符號
-    fullscreenContainer.appendChild(fireworks);
-    
-    document.body.appendChild(fullscreenContainer);
-
-    // 2 秒後隱藏全螢幕煙火
-    setTimeout(() => {
-        fullscreenContainer.remove();
-    }, 2000);
-}
-
-// 當用戶送出煙火禮物時觸發顯示特效
+// 當用戶選擇煙火禮物時觸發
 sendGiftButton.addEventListener('click', () => {
     if (selectedGift === 'fireworks') {
         // 顯示煙火特效
         showFireworksEffect();
-        showFullscreenFireworks();  // 顯示全螢幕煙火
     }
 
     if (selectedGift) {
         const giftData = { username: username, gift: selectedGift };
-
-        // 通知伺服器送禮物事件
         socket.emit('send-gift', giftData);
-
-        // 隱藏模態框
         giftModal.style.display = 'none';
     } else {
         alert('請先選擇一個禮物');

@@ -1,55 +1,9 @@
-/* 特效容器樣式 */
-#effect-container {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    pointer-events: none; /* 防止影響其他元素的操作 */
-}
-
-/* 煙火動畫的樣式 */
-@keyframes fireworks {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.7;
-        transform: scale(2);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(4);
-    }
-}
-
-/* 煙火特效的具體樣式 */
-.fireworks {
-    position: absolute;
-    font-size: 50px;
-    color: gold;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: fireworks 2s forwards;
-}
-
-/* 全螢幕煙火特效 */
-#fullscreen-fireworks {
+#particles-js {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 9999;
-    pointer-events: none;
-}
-
-.fireworks-fullscreen {
-    font-size: 150px;
-    animation: fireworks 2s forwards;
+    pointer-events: none; /* 確保不會影響其他操作 */
 }
