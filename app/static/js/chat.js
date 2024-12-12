@@ -38,10 +38,10 @@ closeGiftModal.addEventListener('click', () => {
 });
 
 // 選擇禮物
-document.querySelectorAll('.gift-button').forEach((button) => {
+document.querySelectorAll('.gift-option').forEach((button) => {  // 修改選擇器為 .gift-option
     button.addEventListener('click', () => {
         selectedGift = button.getAttribute('data-gift');
-        document.querySelectorAll('.gift-button').forEach((btn) => {
+        document.querySelectorAll('.gift-option').forEach((btn) => {
             btn.classList.remove('selected'); // 清除選擇樣式
         });
         button.classList.add('selected'); // 添加選擇樣式
