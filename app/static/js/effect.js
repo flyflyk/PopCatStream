@@ -1,9 +1,23 @@
+const fireworks = new Fireworks('#fireworks-container', {
+    maxRockets: 10,       
+    rocketSpawnInterval: 350, 
+    numParticles: 100,       
+    explosionMinSize: 5,     
+    explosionMaxSize: 30,    
+    explosionChance: 0.75,   
+    explosionSpeed: 3,       
+    explosionDelay: 0,       
+    trailDelay: 0,           
+    trailSpeed: 0.5,        
+    background: 'rgba(0, 0, 0, 0)',
+    particleColor: '#FFD700' // 粒子顏色（黃色）
+});
+
 function showFireworksEffect() {
-    (async () => {
-        await tsParticles.load("tsparticles", {
-            preset: "fireworks",
-        });
-        })();
+    fireworks.start();
+    setTimeout(() => {
+        fireworks.stop();
+    }, 3000);
 }
 
 // 當用戶選擇煙火禮物時觸發
