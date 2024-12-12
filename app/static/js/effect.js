@@ -1,17 +1,54 @@
-const fireworks = new fireworks('#fireworks-container', {
-    maxRockets: 10,       
-    rocketSpawnInterval: 350, 
-    numParticles: 100,       
-    explosionMinSize: 5,     
-    explosionMaxSize: 30,    
-    explosionChance: 0.75,   
-    explosionSpeed: 3,       
-    explosionDelay: 0,       
-    trailDelay: 0,           
-    trailSpeed: 0.5,        
-    background: 'rgba(0, 0, 0, 0)',
-    particleColor: '#FFD700' // 粒子顏色（黃色）
-});
+import { Fireworks } from 'fireworks-js'
+
+const fireworks = new Fireworks('#fireworks-container', {
+    autoresize: true,
+    opacity: 0.5,
+    acceleration: 1.05,
+    friction: 0.97,
+    gravity: 1.5,
+    particles: 50,
+    traceLength: 3,
+    traceSpeed: 10,
+    explosion: 5,
+    intensity: 30,
+    flickering: 50,
+    lineStyle: 'round',
+    hue: {
+      min: 0,
+      max: 360
+    },
+    delay: {
+      min: 30,
+      max: 60
+    },
+    rocketsPoint: {
+      min: 50,
+      max: 50
+    },
+    lineWidth: {
+      explosion: {
+        min: 1,
+        max: 3
+      },
+      trace: {
+        min: 1,
+        max: 2
+      }
+    },
+    brightness: {
+      min: 50,
+      max: 80
+    },
+    decay: {
+      min: 0.015,
+      max: 0.03
+    },
+    mouse: {
+      click: false,
+      move: false,
+      max: 1
+    }
+  })
 
 function showFireworksEffect() {
     fireworks.start();
