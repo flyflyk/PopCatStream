@@ -1,4 +1,4 @@
-const fireworks = new Fireworks('#fireworks-container', {
+const fireworks = new fireworks('#fireworks-container', {
     maxRockets: 10,       
     rocketSpawnInterval: 350, 
     numParticles: 100,       
