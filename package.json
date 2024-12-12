@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^4.21.1",
+    "fireworks-js": "^2.10.8",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   }
