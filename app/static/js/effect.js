@@ -1,4 +1,4 @@
-import { Fireworks } from 'fireworks-js'
+import { Fireworks } from '/node_modules/fireworks-js/dist/index'
 
 const fireworks = new Fireworks('#fireworks-container', {
     autoresize: true,
