@@ -1,7 +1,7 @@
 const fireworksContainer = document.getElementById('fireworks-container');
 
 // 初始化煙火效果
-const fireworks = new fireworks(fireworksContainer, {
+const fireworksInstance = new Fireworks(fireworksContainer, {
     // 配置選項
     speed: 3, // 粒子速度
     particles: 100, // 顯示的煙火粒子數量
@@ -14,16 +14,15 @@ const fireworks = new fireworks(fireworksContainer, {
 
 // 顯示煙火效果
 function showFireworksEffect() {
-    fireworks.start();
+    fireworksInstance.start();
     setTimeout(() => {
-        fireworks.stop();
-    }, 3000); // 3秒後停止
+        fireworksInstance.stop();
+    }, 3000); 
 }
 
 // 當用戶選擇煙火禮物時觸發
 sendGiftButton.addEventListener('click', () => {
     if (selectedGift === 'fireworks') {
-        // 顯示煙火特效
         showFireworksEffect();
     }
 
