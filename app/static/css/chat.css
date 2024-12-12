@@ -2,7 +2,7 @@
 .chat-container {
     width: 400px;
     background-color: #222;
-    padding: 0px;
+    padding: 10px;
     color: #FFD700;
 }
 
@@ -27,14 +27,6 @@
     border: none;
     box-sizing: border-box;
     margin-bottom: 10px;
-}
-
-.gift-button {
-    margin-right: 10px;
-    background-color: #FFD700;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
 }
 
 .send-button {
@@ -80,13 +72,21 @@
 }
 
 .gift-button {
+    margin-right: 10px;
     background-color: #FFD700;
     border: none;
-    padding: 10px 15px;
-    margin: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gift-button i {
+    font-size: 20px;
+    color: #000;
 }
 
 .close-modal-button {
