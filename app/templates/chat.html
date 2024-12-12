@@ -1,10 +1,13 @@
-<aside style="width: 300px; background-color: #222; padding: 20px; color: #FFD700;">
+<aside class="chat-container">
     <h2>聊天室</h2>
     <div id="chat-box">
         <!-- 這裡會顯示聊天訊息 -->
     </div>
-    <div style="display: flex; flex-direction: column;">
+    <div class="chat-input-container">
+        <button id="gift-button" class="gift-button">送禮物</button>
         <input type="text" id="chat-input" placeholder="輸入訊息...">
-        <button onclick="sendMessage()" ; class="send-button">發送</button>
+        <button onclick="sendMessage()" class="send-button">發送</button>
     </div>
 </aside>
+
+{% include 'gift_modal.html' %}

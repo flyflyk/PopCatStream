@@ -38,6 +38,10 @@ io.on('connection', (socket) => {
     io.emit('message', data);
   });
 
+  socket.on('send-gift', (giftData) => {
+    console.log('收到禮物:', giftData);
+    io.emit('receive-gift', giftData);
+  });
 
   socket.on('offer', ({ offer, to }) => {
     console.log(`Received offer from ${socket.id} to ${to}:`, offer); 

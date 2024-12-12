@@ -1,5 +1,9 @@
 const chatInput = document.getElementById('chat-input');
 const chatBox = document.getElementById('chat-box');
+const giftButton = document.getElementById('gift-button');
+const giftModal = document.getElementById('gift-modal');
+const closeGiftModal = document.getElementById('close-gift-modal');
+
 let username = localStorage.getItem('username') || '匿名用戶';
 
 socket.on('message', function(data) {
@@ -12,11 +16,40 @@ socket.on('message', function(data) {
     }
 });
 
+socket.on('receive-gift', (giftData) => {
+    const messageElement = document.createElement('div');
+    messageElement.textContent = `${giftData.username} 贈送了 ${giftData.gift}`;
+    messageElement.style.color = '#FFD700';
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
 // 監聽 Enter 鍵事件
 chatInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         sendMessage(); 
     }
+});
+
+giftButton.addEventListener('click', () => {
+    giftModal.style.display = 'flex';
+});
+
+closeGiftModal.addEventListener('click', () => {
+    giftModal.style.display = 'none';
+});
+
+document.querySelectorAll('.gift-button').forEach((button) => {
+    button.addEventListener('click', () => {
+        const giftType = button.getAttribute('data-gift');
+        const giftData = { username: username, gift: giftType };
+
+        // 通知伺服器送禮物事件
+        socket.emit('send-gift', giftData);
+
+        // 隱藏模態框
+        giftModal.style.display = 'none';
+    });
 });
 
 window.onload = async function() {
