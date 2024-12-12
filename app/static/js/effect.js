@@ -1,22 +1,21 @@
 const fireworksContainer = document.getElementById('fireworks-container');
 
-// 初始化煙火效果
-const fireworksInstance = new Fireworks(fireworksContainer, {  // Changed to fireworksInstance
-    // 配置選項
-    speed: 3, // 粒子速度
-    particles: 100, // 顯示的煙火粒子數量
-    explosion: 5, // 爆炸程度
-    brightness: 100, // 煙火亮度
-    color: ['#ff0044', '#fffb00', '#00bfff', '#00ff00'], // 煙火顏色
-    trace: 3, // 輸出痕跡
-    delay: 30, // 延遲時間
+// 使用 fireworks 作為全局對象，而不是構造函數
+const fireworks = new Fireworks(fireworksContainer, {  // 確保 Fireworks 是全局對象
+    speed: 3,
+    particles: 100,
+    explosion: 5,
+    brightness: 100,
+    color: ['#ff0044', '#fffb00', '#00bfff', '#00ff00'],
+    trace: 3,
+    delay: 30,
 });
 
 // 顯示煙火效果
 function showFireworksEffect() {
-    fireworksInstance.start();  // Use fireworksInstance here
+    fireworks.start();  // 啟動煙火效果
     setTimeout(() => {
-        fireworksInstance.stop();  // And here
+        fireworks.stop();  // 3秒後停止煙火
     }, 3000); // 3秒後停止
 }
 
