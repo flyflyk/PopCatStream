@@ -1,0 +1,49 @@
+/* 主容器樣式 */
+.menu-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px; /* 下拉選單與主內容之間的間距 */
+}
+
+/* 下拉選單樣式 */
+.dropdown-menu {
+    position: relative;
+    z-index: 10; /* 確保不會被覆蓋 */
+}
+
+/* 主要內容容器 */
+.main-container {
+    display: flex;
+    flex-grow: 1;
+    gap: 0px; /* 主內容與聊天區之間的間距 */
+}
+
+/* 直播區域 */
+.content {
+    flex: 3;
+    display: flex;
+    justify-content: center; /* 視訊居中 */
+    align-items: center;
+}
+
+.content video {
+    width: 100%; /* 視訊寬度填滿容器 */
+    max-width: 860px; /* 最大寬度 */
+    height: 100%;
+    max-height: 480px;
+    border-radius: 2px; /* 圓角邊框 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 視訊的陰影效果 */
+}
+
+/* 聊天區域 */
+.chat-container {
+    flex: 1;
+    background-color: #444; /* 深灰色背景 */
+    border-radius: 5px; /* 圓角 */
+    padding: 20px;
+    overflow-y: auto; /* 如果內容過長可滾動 */
+    max-height: 670px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 陰影效果 */
+    border-left: 2px solid #FFD700; /* 左側的分隔線 */
+}

@@ -1,0 +1,80 @@
+/* 模態框背景遮罩 */
+.modal {
+    display: none; /* 初始為隱藏狀態 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(34, 34, 34, 0.9); /* 深灰色半透明背景 */
+}
+
+/* 模態框內容 */
+.modal-content {
+    background-color: #2b2b2b; /* 深灰色背景 */
+    margin: 10% auto; /* 在畫面中間 */
+    padding: 20px;
+    border: 1px solid #FFD700; /* 黃色邊框 */
+    width: 40%; /* 可以依需求調整寬度 */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* 模糊陰影 */
+    color: #FFD700; /* 黃色文字 */
+}
+
+/* 標題樣式 */
+.modal-content h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px; /* 標題字體大小 */
+    color: #FFD700; /* 黃色 */
+}
+
+/* 表單標籤樣式 */
+.modal-content label {
+    color: #FFD700; /* 黃色 */
+}
+
+/* 輸入框樣式 */
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content input[type="email"] {
+    width: 70%;
+    padding: 10px;
+    margin: 8px 0; /* 上下邊距 */
+    border: 1px solid #FFD700; /* 黃色邊框 */
+    border-radius: 5px; /* 圓角 */
+    background-color: #333; /* 深色背景 */
+    color: #FFFFFF; /* 黃色文字 */
+}
+
+/* 按鈕樣式 */
+.modal-content button {
+    background-color: #FFD700; /* 黃色按鈕 */
+    color: #2b2b2b; /* 深灰色文字 */
+    padding: 7px 10px;
+    border: none; /* 去掉邊框 */
+    border-radius: 5px; /* 圓角 */
+    cursor: pointer; /* 游標變成手指形狀 */
+    transition: background-color 0.3s; /* 平滑過渡效果 */
+}
+
+/* 按鈕懸停效果 */
+.modal-content button:hover {
+    background-color: #FFC107; /* 懸停時變淺黃色 */
+}
+
+/* 關閉按鈕樣式 */
+.close {
+    color: #FFD700; /* 黃色 */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #FFC107; /* 懸停時變淺黃色 */
+    text-decoration: none;
+    cursor: pointer;
+}

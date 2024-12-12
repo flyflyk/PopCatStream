@@ -1,0 +1,17 @@
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>登入帳號</h2>
+        <form action="/login" method="POST" id="loginForm">  <!-- 更新 action -->
+            <label for="username">使用者名稱:</label><br>
+            <input type="text" id="login_username" name="username" required>
+            <div id="login_nameError" style="color: red;"></div><br><br>
+
+            <label for="password">密碼:</label><br>
+            <input type="password" id="login_password" name="password" required>
+            <div id="login_passwordError" style="color: red;"></div><br><br>
+
+            <button type="submit" id="loginButton">登入</button>
+        </form>
+    </div>
+</div>

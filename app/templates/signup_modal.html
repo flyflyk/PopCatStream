@@ -1,0 +1,21 @@
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>註冊新帳號</h2>
+        <form action="/signup" method="POST">
+            <label for="username">使用者名稱:</label><br>
+            <input type="text" id="signup_username" name="username" required>
+            <div id="signup_usernameError" style="color: red;"></div><br><br>
+        
+            <label for="password">密碼:</label><br>
+            <input type="password" id="signup_password" name="password" required>
+            <div id="signup_passwordError" style="color: red;"></div><br><br>
+        
+            <label for="confirmPassword">確認密碼:</label><br>
+            <input type="password" id="signup_confirmPassword" name="confirmPassword" required>
+            <div id="signup_confirmPasswordError" style="color: red;"></div><br><br>
+
+            <button type="submit" id="signupButton" disabled>註冊</button>
+        </form>
+    </div>
+</div>

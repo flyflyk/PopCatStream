@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopCatStream</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
+
+    <!-- 標頭 -->
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px;">
+        <div style="flex: 1;">
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
+            </a>
+        </div>
+        <h2 class="site-title">popcatstream</h2>
+        <div id="auth-buttons" style="flex: 1; text-align: right;">
+        </div>
+    </header>
+    
+    <!-- 下拉選單 -->
+    <div class="menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div id="menu-options" style="display: none;">
+        <div id="create-button"></div>
+    </div>
+
+    <!-- 主要內容 -->
+    <main style="padding: 50px;">
+        <div style="text-align: center;">
+            <h1>正在直播的直播間</h1>
+            <div id="live-rooms" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <!-- 這裡將動態生成直播間 -->
+            </div>
+            <div id="start-stream" style="display: none;">
+                <button onclick="window.location.href='/broadcaster.html'" style="padding: 10px 20px; background-color: #FFD700; color: #333; border: none; border-radius: 5px; cursor: pointer;">我要直播</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 載入 JavaScript -->
+    <script src="/static/js/live_stream.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 假設從API或其他來源獲取正在直播的直播間數據
+            const liveRooms = [
+                // { id: 1, title: '直播間1', thumbnail: '/static/images/room1.jpg' },
+                // { id: 2, title: '直播間2', thumbnail: '/static/images/room2.jpg' }
+            ];
+
+            const liveRoomsContainer = document.getElementById('live-rooms');
+            const startStreamContainer = document.getElementById('start-stream');
+
+            if (liveRooms.length > 0) {
+                // 有直播間，動態生成直播間元素
+                liveRooms.forEach(room => {
+                    const roomElement = document.createElement('div');
+                    roomElement.className = 'live-room';
+                    roomElement.style.margin = '10px';
+                    roomElement.style.cursor = 'pointer';
+                    roomElement.innerHTML = `
+                        <img src="${room.thumbnail}" alt="${room.title}" style="width: 200px; height: 150px; border-radius: 10px;">
+                        <h3>${room.title}</h3>
+                    `;
+                    roomElement.onclick = () => {
+                        window.location.href = `/live_room/${room.id}`; // 點擊進入直播間
+                    };
+                    liveRoomsContainer.appendChild(roomElement);
+                });
+            } else {
+                // 沒有直播間，顯示“我要直播”按鈕
+                startStreamContainer.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人資料</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header style="display: flex; align-items: center; padding: 20px; position: absolute; top: 0; width: 100%;">
+        <div style="flex: 1; display: flex; justify-content: flex-start;">
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
+            </a>
+        </div>
+        <div style="flex: 1; text-align: center;">
+            <p class="site-title">popcatstream</p>
+        </div>
+        <div style="flex: 1; text-align: right;">
+            <p>餘額: {% if balance %}{{ balance }}{% else %}0{% endif %}</p>
+        </div>
+    </header>
+
+    <div style="display: flex; width: 100%; align-items: center;">
+        <div class="profile-image-wrapper">
+            <img src="/static/images/profile.png" alt="Profile" class="profile-image">
+        </div>
+
+        <!-- 新的外層框框 -->
+        <div class="combined-wrapper">
+            <div class="content-wrapper" style="align-items: flex-start;">
+                <div class="content">
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <p style="margin: 0; display: inline;">目前用戶名:</p>
+                        <div class="oval-box" style="display: inline-flex; align-items: center; margin-left: 10px;">
+                            <span>{{ username }}</span>
+                            <button class="settings-button" onclick="showChangeNameForm()">
+                                <img src="/static/images/pencil.png" alt="修改名字" class="pencil-icon">
+                            </button>
+                        </div>
+                    </div>
+                    <div id="change-name-form" class="settings-form">
+                        <input type="text" id="new-name" placeholder="輸入新名字">
+                        <button class="settings-button" onclick="changeName()">確認修改</button>
+                    </div>
+                    <div id="user-settings">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <p style="margin: 0; display: inline;">目前密碼:</p>
+                            <div class="oval-box password-container" style="display: inline-flex; align-items: center; margin-left: 10px;">
+                                <span id="current-password">********</span>
+                                <button class="settings-button" onclick="showChangePasswordForm()">
+                                    <img src="/static/images/pencil.png" alt="修改密碼" class="pencil-icon">
+                                </button>
+                            </div>
+                        </div>
+                        <div id="change-password-form" class="settings-form">
+                            <input type="password" id="new-password" placeholder="輸入新密碼">
+                            <button class="settings-button" onclick="changePassword()">確認修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 粉絲和追蹤者列表 -->
+            <div class="lists-wrapper" style="flex: 1; padding: 50px; box-sizing: border-box; color: #FFD700;">
+                <p>追蹤中的創作者</p>
+                <ul>
+                    {% for creator in followed_creators %}
+                        <li>{{ creator }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>粉絲列表</p>
+                <ul>
+                    {% for fan in fans_list %}
+                        <li>{{ fan }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">返回</button>
+
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/profile.js"></script>
+</body>
+</html>

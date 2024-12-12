@@ -1,0 +1,24 @@
+.menu {
+    position: fixed;
+    top: 100px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    cursor: pointer;
+}
+
+.menu div {
+    height: 5px;
+    background-color: black;
+    margin: 4px 0;
+}
+
+#menu-options {
+    position: fixed;
+    top: 140px;
+    left: 10px;
+    background-color: #222;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,68 @@
+/* 主容器樣式 */
+.menu-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px; /* 下拉選單與主內容之間的間距 */
+}
+
+/* 下拉選單樣式 */
+.dropdown-menu {
+    position: relative;
+    z-index: 20; /* 確保不會被覆蓋 */
+}
+
+/* 主要內容容器 */
+.main-container {
+    display: flex;
+    flex-grow: 1;
+    gap: 0px; /* 主內容與聊天區之間的間距 */
+}
+
+.content {
+    flex: 3;
+    display: block; /* 修改為 block 使子元素垂直排列 */
+    text-align: center; /* 讓內容居中 */
+}
+
+.content video {
+    display: block; /* 確保視頻單獨占據一行 */
+    margin: 0 auto; /* 水平居中 */
+    width: 100%; /* 視頻寬度填滿容器 */
+    max-width: 860px; /* 最大寬度 */
+    height: auto; /* 自動調整高度 */
+    border-radius: 2px; /* 圓角邊框 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 視訊的陰影效果 */
+}
+
+
+/* 聊天區域 */
+.chat-container {
+    flex: 1;
+    background-color: #444; /* 深灰色背景 */
+    border-radius: 5px; /* 圓角 */
+    padding: 20px;
+    overflow-y: auto; /* 如果內容過長可滾動 */
+    max-height: 670px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* 陰影效果 */
+    border-left: 2px solid #FFD700; /* 左側的分隔線 */
+}
+
+/* 按鈕容器樣式 */
+.button-container {
+    display: flex;
+    justify-content: center; /* 按鈕置中 */
+    gap: 15px; /* 按鈕間距 */
+    margin-top: 20px; /* 與視頻之間的距離 */
+}
+
+/* 按鈕樣式繼續沿用 */
+.oval-button {
+    padding: 10px 20px; /* 按鈕內邊距 */
+    border: none;
+    border-radius: 50px; /* 使按鈕呈橢圓形 */
+    background-color: #ADD8E6; /* 按鈕背景顏色 */
+    color: #4B0082; /* 按鈕文字顏色 */
+    cursor: pointer;
+}
+

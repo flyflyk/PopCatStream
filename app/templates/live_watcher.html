@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopCatStream</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/dropdown_menu.css">
+    <link rel="stylesheet" href="/static/css/live_watcher.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
+
+    <!-- 標頭 -->
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 20px;">
+        <div style="flex: 1;">
+            <a href="/">
+                <img src="/static/images/popcat.png" alt="平台 Logo" style="height: 50px;">
+            </a>
+        </div>
+        <h2 class="site-title">popcatstream</h2>
+        <div id="auth-buttons" style="flex: 1; text-align: right;">
+        </div>
+    </header>
+    
+    <!-- 主內容和下拉選單 -->
+    <div class="menu-container">
+        <!-- 下拉選單 -->
+        <div class="dropdown-menu">
+            {% include 'dropdown_menu.html' %}
+        </div>
+
+        <!-- 主內容 -->
+        <div class="main-container">
+            <!-- 直播區域 -->
+            <div class="content">
+                <video id="remoteVideo" autoplay controls></video>
+            </div>
+
+            <!-- 聊天室 -->
+            <div class="chat-container">
+                {% include 'chat.html' %}
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <!-- 載入 JavaScript -->
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="/static/js/live_watcher.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

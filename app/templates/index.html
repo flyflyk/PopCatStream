@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopCatStream</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/dropdown_menu.css">
+    <link rel="stylesheet" href="/static/css/modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #333; color: #FFD700;"> <!-- 主頁背景顏色 -->
+
+    <!-- 標頭 -->
+    {% include 'header.html' %}
+    
+    <!-- 下拉選單 -->
+    {% include 'dropdown_menu.html' %}
+
+    <!-- 主要內容 -->
+    <main style="text-align: center; padding: 50px;">
+        <h1>直播中 <span style="display: inline-block; width: 20px; height: 20px; background-color: #fc0505; border-radius: 50%; vertical-align: middle;"></span></h1>
+        <div style="margin-top: 20px;">
+            <video id="liveVideo" width="640" height="360" controls>
+                <source src="URL_OF_YOUR_LIVE_STREAM" type="application/x-mpegURL">
+                您的瀏覽器不支持視頻標籤。
+            </video>
+        </div>
+    </main>
+
+    <!-- 登入/註冊模態框 -->
+    {% include 'login_modal.html' %}
+    {% include 'signup_modal.html' %}
+
+    <!-- 載入 JavaScript -->
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/login_modal.js"></script>
+    <script src="/static/js/signup_modal.js"></script>
+
+</body>
+</html>

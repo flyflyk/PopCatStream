@@ -1,0 +1,30 @@
+#chat-box {
+    height: 400px;
+    background-color: #FFFFE0;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+}
+  
+#chat-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+  
+.send-button {
+    width: 100px;
+    height: 40px;
+    background-color: #ADD8E6;
+    color: #4B0082;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
