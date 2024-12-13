@@ -1,18 +1,18 @@
 function initFireworksEffect() {
-    particlesJS('particles-js', {
+    particlesJS('firework-container', {
         particles: {
             number: {
-                value: 0, // 初始為零，根據需要動態生成粒子
+                value: 0,
                 density: {
                     enable: true,
                     value_area: 800
                 }
             },
             color: {
-                value: "#FFD700" // 黃金色
+                value: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'],
             },
             shape: {
-                type: "circle", // 粒子形狀為圓形
+                type: "circle",
             },
             opacity: {
                 value: 1,
@@ -33,7 +33,7 @@ function initFireworksEffect() {
                 }
             },
             line_linked: {
-                enable: false // 關閉粒子連線效果
+                enable: false 
             },
             move: {
                 enable: true,
@@ -59,11 +59,70 @@ function initFireworksEffect() {
     });
 }
 
+function initExplosionEffect() {
+    particlesJS('explosion-container', {
+        particles: {
+            number: {
+                value: 100,
+                density: {
+                    enable: true,
+                    value_area: 800,
+                },
+            },
+            color: {
+                value: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'],
+            },
+            shape: {
+                type: 'circle',
+            },
+            opacity: {
+                value: 1,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0.3,
+                },
+            },
+            size: {
+                value: 5,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 10,
+                    size_min: 1,
+                },
+            },
+            line_linked: {
+                enable: false,
+            },
+            move: {
+                enable: true,
+                speed: 10,
+                direction: 'none',
+                random: true,
+                straight: false,
+                out_mode: 'out',
+                bounce: false,
+            },
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: {
+                onclick: {
+                    enable: true,
+                    mode: 'push', // 點擊時生成更多粒子
+                },
+            },
+        },
+    });
+}
+
 function showFireworksEffect() {
     // 初始化煙火效果
     initFireworksEffect();
 
-    particlesJS('particles-js', {
+    particlesJS('firework-container', {
         particles: {
             number: {
                 value: 10, // 每次顯示100個粒子
@@ -72,7 +131,7 @@ function showFireworksEffect() {
                 }
             },
             color: {
-                value: "#FFD700" // 粒子顏色
+                value: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'],
             },
             shape: {
                 type: "circle", // 粒子形狀
@@ -110,10 +169,29 @@ function showFireworksEffect() {
         }
     });
 
-    // 設定煙火持續時間
     setTimeout(() => {
-        document.getElementById('particles-js').innerHTML = '';
+        showExplosionEffect()
+    }, 500);
+
+    setTimeout(() => {
+        document.getElementById('firework-container').innerHTML = '';
     }, 5000);
+}
+
+function showExplosionEffect() {
+    const explosionContainer = document.getElementById('explosion-container');
+    explosionContainer.style.position = 'absolute';
+    explosionContainer.style.top = '10%'; // 設置爆炸在畫面上方
+    explosionContainer.style.left = '50%';
+    explosionContainer.style.transform = 'translateX(-50%)';
+    explosionContainer.style.width = '100%';
+    explosionContainer.style.height = '20%';
+
+    initExplosionEffect();
+
+    setTimeout(() => {
+        explosionContainer.innerHTML = '';
+    }, 4500);
 }
 
 // 綁定送禮按鈕事件
