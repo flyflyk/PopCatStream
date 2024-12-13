@@ -1,8 +1,9 @@
-#fireworks-container {
-    position: absolute;
+#particles-js {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 9999;
+    pointer-events: none; /* 確保不會影響其他操作 */
 }

@@ -1,28 +1,125 @@
-const fireworksContainer = document.getElementById('fireworks-container');
-
-// 使用 fireworks 作為全局對象，而不是構造函數
-const fireworks = new Fireworks(fireworksContainer, {  // 確保 Fireworks 是全局對象
-    speed: 3,
-    particles: 100,
-    explosion: 5,
-    brightness: 100,
-    color: ['#ff0044', '#fffb00', '#00bfff', '#00ff00'],
-    trace: 3,
-    delay: 30,
-});
-
-// 顯示煙火效果
-function showFireworksEffect() {
-    fireworks.start();  // 啟動煙火效果
-    setTimeout(() => {
-        fireworks.stop();  // 3秒後停止煙火
-    }, 3000); // 3秒後停止
+function initFireworksEffect() {
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 0, // 零表示不顯示，根據需要顯示煙火時再調整
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#FFD700" // 黃金色
+            },
+            shape: {
+                type: "circle", // 煙火粒子為圓形
+            },
+            opacity: {
+                value: 1,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0
+                }
+            },
+            size: {
+                value: 5,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 10,
+                    size_min: 1
+                }
+            },
+            line_linked: {
+                enable: false // 關閉粒子之間的連接
+            },
+            move: {
+                enable: true,
+                speed: 10,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "grab"
+                },
+                onclick: {
+                    enable: true,
+                    mode: "push" // 點擊時推送更多粒子
+                }
+            }
+        }
+    });
 }
 
-// 當用戶選擇煙火禮物時觸發
+function showFireworksEffect() {
+    initFireworksEffect();
+
+    // 設置粒子的數量和顏色，使它們看起來像煙火
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 100, // 顯示100個煙火粒子
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#FFD700" // 黃金色
+            },
+            shape: {
+                type: "circle",
+            },
+            opacity: {
+                value: 1,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0
+                }
+            },
+            size: {
+                value: 8,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 10,
+                    size_min: 1
+                }
+            },
+            line_linked: {
+                enable: false
+            },
+            move: {
+                enable: true,
+                speed: 15,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false
+            }
+        }
+    });
+
+    setTimeout(() => {
+        document.getElementById('particles-js').innerHTML = '';
+    }, 3000);
+}
+
 sendGiftButton.addEventListener('click', () => {
     if (selectedGift === 'fireworks') {
-        // 顯示煙火特效
         showFireworksEffect();
     }
 
