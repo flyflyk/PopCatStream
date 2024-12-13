@@ -39,8 +39,8 @@ function initFireworksEffect() {
                 enable: true,
                 speed: 10,
                 direction: "top", // 粒子主要向上移動
-                random: true, // 隨機化方向角度
-                straight: false,
+                random: false, // 隨機化方向角度
+                straight: true,
                 out_mode: "out", // 粒子超出畫布時消失
                 bounce: false
             }
@@ -66,7 +66,7 @@ function showFireworksEffect() {
     particlesJS('particles-js', {
         particles: {
             number: {
-                value: 100, // 每次顯示100個粒子
+                value: 10, // 每次顯示100個粒子
                 density: {
                     enable: false // 禁用密度影響，僅使用固定數量
                 }
@@ -102,8 +102,8 @@ function showFireworksEffect() {
                 enable: true,
                 speed: 15, // 粒子向上的速度
                 direction: "top", // 固定主要向上移動
-                random: true, // 隨機偏移角度
-                straight: false, // 允許曲線移動
+                random: false, // 隨機偏移角度
+                straight: true, // 允許曲線移動
                 out_mode: "out", // 粒子移動到畫布外後消失
                 bounce: false
             }
@@ -112,8 +112,8 @@ function showFireworksEffect() {
 
     // 設定煙火持續時間
     setTimeout(() => {
-        document.getElementById('particles-js').innerHTML = ''; // 清除粒子效果
-    }, 3000); // 3秒後停止效果
+        document.getElementById('particles-js').innerHTML = '';
+    }, 5000);
 }
 
 // 綁定送禮按鈕事件
