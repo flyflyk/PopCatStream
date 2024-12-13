@@ -2,7 +2,7 @@ function initFireworksEffect() {
     particlesJS('particles-js', {
         particles: {
             number: {
-                value: 0, // 零表示不顯示，根據需要顯示煙火時再調整
+                value: 0, // 初始為零，根據需要動態生成粒子
                 density: {
                     enable: true,
                     value_area: 800
@@ -12,7 +12,7 @@ function initFireworksEffect() {
                 value: "#FFD700" // 黃金色
             },
             shape: {
-                type: "circle", // 煙火粒子為圓形
+                type: "circle", // 粒子形狀為圓形
             },
             opacity: {
                 value: 1,
@@ -33,15 +33,15 @@ function initFireworksEffect() {
                 }
             },
             line_linked: {
-                enable: false // 關閉粒子之間的連接
+                enable: false // 關閉粒子連線效果
             },
             move: {
                 enable: true,
                 speed: 10,
-                direction: "none",
-                random: true,
+                direction: "top", // 粒子主要向上移動
+                random: true, // 隨機化方向角度
                 straight: false,
-                out_mode: "out",
+                out_mode: "out", // 粒子超出畫布時消失
                 bounce: false
             }
         },
@@ -49,12 +49,10 @@ function initFireworksEffect() {
             detect_on: "canvas",
             events: {
                 onhover: {
-                    enable: true,
-                    mode: "grab"
+                    enable: false // 禁用滑鼠懸停交互
                 },
                 onclick: {
-                    enable: true,
-                    mode: "push" // 點擊時推送更多粒子
+                    enable: false // 禁用滑鼠點擊交互
                 }
             }
         }
@@ -62,62 +60,63 @@ function initFireworksEffect() {
 }
 
 function showFireworksEffect() {
+    // 初始化煙火效果
     initFireworksEffect();
 
-    // 設置粒子的數量和顏色，使它們看起來像煙火
     particlesJS('particles-js', {
         particles: {
             number: {
-                value: 100, // 顯示100個煙火粒子
+                value: 100, // 每次顯示100個粒子
                 density: {
-                    enable: true,
-                    value_area: 800
+                    enable: false // 禁用密度影響，僅使用固定數量
                 }
             },
             color: {
-                value: "#FFD700" // 黃金色
+                value: "#FFD700" // 粒子顏色
             },
             shape: {
-                type: "circle",
+                type: "circle", // 粒子形狀
             },
             opacity: {
                 value: 1,
                 random: true,
                 anim: {
                     enable: true,
-                    speed: 1,
+                    speed: 2,
                     opacity_min: 0
                 }
             },
             size: {
-                value: 8,
+                value: 6,
                 random: true,
                 anim: {
                     enable: true,
-                    speed: 10,
-                    size_min: 1
+                    speed: 5,
+                    size_min: 2
                 }
             },
             line_linked: {
-                enable: false
+                enable: false // 關閉粒子之間的連線
             },
             move: {
                 enable: true,
-                speed: 15,
-                direction: "none",
-                random: true,
-                straight: false,
-                out_mode: "out",
+                speed: 15, // 粒子向上的速度
+                direction: "top", // 固定主要向上移動
+                random: true, // 隨機偏移角度
+                straight: false, // 允許曲線移動
+                out_mode: "out", // 粒子移動到畫布外後消失
                 bounce: false
             }
         }
     });
 
+    // 設定煙火持續時間
     setTimeout(() => {
-        document.getElementById('particles-js').innerHTML = '';
-    }, 3000);
+        document.getElementById('particles-js').innerHTML = ''; // 清除粒子效果
+    }, 3000); // 3秒後停止效果
 }
 
+// 綁定送禮按鈕事件
 sendGiftButton.addEventListener('click', () => {
     if (selectedGift === 'fireworks') {
         showFireworksEffect();
