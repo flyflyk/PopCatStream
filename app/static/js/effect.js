@@ -60,7 +60,7 @@ function initFireworksEffect() {
 }
 
 function initExplosionEffect() {
-    particlesJS('explosion-container', {
+    particlesJS('firework-explode-container', {
         particles: {
             number: {
                 value: 100,
@@ -179,7 +179,7 @@ function showFireworksEffect() {
 }
 
 function showExplosionEffect() {
-    const explosionContainer = document.getElementById('explosion-container');
+    const explosionContainer = document.getElementById('firework-explode-container');
     explosionContainer.style.position = 'absolute';
     explosionContainer.style.top = '10%'; // 設置爆炸在畫面上方
     explosionContainer.style.left = '50%';
