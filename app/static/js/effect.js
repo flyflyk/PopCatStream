@@ -2,7 +2,7 @@ function initFireworksEffect() {
     particlesJS('firework-container', {
         particles: {
             number: {
-                value: 0,
+                value: 10,
                 density: {
                     enable: true,
                     value_area: 800
@@ -12,7 +12,12 @@ function initFireworksEffect() {
                 value: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'],
             },
             shape: {
-                type: "circle",
+                type: "image",
+                image: {
+                    src: "/static/images/firework.png", // 自訂圖片的路徑
+                    width: 5, 
+                    height: 81 
+                }
             },
             opacity: {
                 value: 1,
@@ -24,7 +29,7 @@ function initFireworksEffect() {
                 }
             },
             size: {
-                value: 5,
+                value: 2,
                 random: true,
                 anim: {
                     enable: true,
@@ -37,7 +42,7 @@ function initFireworksEffect() {
             },
             move: {
                 enable: true,
-                speed: 10,
+                speed: 6,
                 direction: "top", // 粒子主要向上移動
                 random: false, // 隨機化方向角度
                 straight: true,
@@ -98,7 +103,7 @@ function initExplosionEffect() {
             },
             move: {
                 enable: true,
-                speed: 3,
+                speed: 8,
                 direction: 'none',
                 random: true,
                 straight: false,
@@ -119,54 +124,15 @@ function initExplosionEffect() {
 }
 
 function showFireworksEffect() {
-    initFireworksEffect();
+    const fireworkContainer = document.getElementById('firework-container');
 
-    particlesJS('firework-container', {
-        particles: {
-            number: {
-                value: 10,
-                density: {
-                    enable: false
-                }
-            },
-            color: {
-                value: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'],
-            },
-            shape: {
-                type: "circle",
-            },
-            opacity: {
-                value: 1,
-                random: true,
-                anim: {
-                    enable: true,
-                    speed: 2,
-                    opacity_min: 0
-                }
-            },
-            size: {
-                value: 6,
-                random: true,
-                anim: {
-                    enable: true,
-                    speed: 5,
-                    size_min: 2
-                }
-            },
-            line_linked: {
-                enable: false
-            },
-            move: {
-                enable: true,
-                speed: 15,
-                direction: "top",
-                random: false,
-                straight: false,
-                out_mode: "out",
-                bounce: false
-            }
-        }
-    });
+    fireworkContainer.style.position = 'absolute';
+    fireworkContainer.style.top = '40%';
+    fireworkContainer.style.left = '50%';
+    fireworkContainer.style.transform = 'translateX(-50%)';
+    fireworkContainer.style.width = '100%';
+    fireworkContainer.style.height = '60%';
+    initFireworksEffect();
 
     setTimeout(() => {
         showExplosionEffect()
@@ -184,7 +150,7 @@ function showExplosionEffect() {
     explosionContainer.style.left = '50%';
     explosionContainer.style.transform = 'translateX(-50%)';
     explosionContainer.style.width = '100%';
-    explosionContainer.style.height = '15%';
+    explosionContainer.style.height = '25%';
 
     initExplosionEffect();
 
