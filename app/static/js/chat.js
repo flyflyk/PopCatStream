@@ -12,7 +12,7 @@ socket.on('message', function (data) {
     if (username != data.username) {
         const messageElement = document.createElement('div');
         messageElement.textContent = `${data.username}: ${data.message}`;
-        messageElement.style.color = '#4B0082';
+        messageElement.style.color = '#FFF';
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight; // 滾動到最新的訊息
     }
@@ -107,7 +107,7 @@ function sendMessage() {
 
         const messageElement = document.createElement('div');
         messageElement.textContent = `${username}: ${message}`;
-        messageElement.style.color = '#4B0082';
+        messageElement.style.color = '#FFF';
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
         chatInput.value = '';
