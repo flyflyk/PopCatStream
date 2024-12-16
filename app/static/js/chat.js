@@ -92,6 +92,13 @@ window.onload = async function () {
     }
 };
 
+// 監聽 Enter 鍵事件
+chatInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        sendMessage(); 
+    }
+});
+
 function sendMessage() {
     const message = chatInput.value.trim();
 
