@@ -19,11 +19,13 @@ socket.on('message', function (data) {
 });
 
 socket.on('receive-gift', (giftData) => {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${giftData.username} 贈送了 ${giftData.gift}`;
-    messageElement.style.color = '#FFD700';
-    chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    if (username != giftData.username) {
+        const messageElement = document.createElement('div');
+        messageElement.textContent = `${giftData.username} 贈送了 ${giftData.gift}`;
+        messageElement.style.color = '#FFD700';
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 });
 
 // 顯示模態框
